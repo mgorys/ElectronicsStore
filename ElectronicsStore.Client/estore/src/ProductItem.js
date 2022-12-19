@@ -12,7 +12,7 @@ const ProductItem = ({ product }) => {
   return (
     <>
       <div key={id} className="productitem-container">
-        <Link to="/product">
+        <Link to={`/product/${name}`} className="productitem-name">
           <h2>{name}</h2>
         </Link>
         <h2 className="productitem-price">{price}</h2>

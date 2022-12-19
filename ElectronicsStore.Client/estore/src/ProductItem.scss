@@ -2,7 +2,13 @@
   display: grid;
   grid-template-columns: auto 100px 200px;
   align-items: center;
+
   .productitem-price {
     display: flex;
+  }
+
+  .productitem-name {
+    text-decoration: none;
+    color: black;
   }
 }

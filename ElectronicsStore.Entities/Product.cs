@@ -18,6 +18,9 @@ namespace ElectronicsStore.Entities
         public int IdCategory { get; set; }
         [ForeignKey("IdCategory")]
         public virtual Category Category { get; set; }
+        public int IdBrand { get; set; }
+        [ForeignKey("IdBrand")]
+        public virtual Brand Brand { get; set; }
 
     }
 }

@@ -35,86 +35,114 @@ namespace ElectronicsStore.Persistence
                      Id = 3,
                      Name = "Accesories",
                  }
+                ); 
+            modelBuilder.Entity<Brand>().HasData(
+                     new Category
+                     {
+                         Id = 1,
+                         Name = "Apple",
+                     },
+                new Category
+                {
+                    Id = 2,
+                    Name = "Samsung",
+                },
+                 new Category
+                 {
+                     Id = 3,
+                     Name = "NoName",
+                 }
                 );
             modelBuilder.Entity<Product>().HasData(
                new Product
                {
                    Id = 1,
-                   Name = "Apple iPhone 13 Pro Max Graphite",
+                   Name = "iPhone 13 Pro Max",
                    IdCategory = 1,
-                   Price = 109.99m
+                   Price = 109.99m,
+                   IdBrand = 1,
                },
                new Product
                {
                    Id = 2,
-                   Name = "OnePlus 9 5G Astral Black 120Hz",
+                   Name = "OnePlus 9",
                    IdCategory = 1,
-                   Price = 89.99m
+                   Price = 89.99m,
+                   IdBrand = 3
                },
                new Product
                {
                    Id = 3,
-                   Name = "Samsung Galaxy S21 FE 5G Fan Edition Grey",
+                   Name = "Galaxy S21 FE",
                    IdCategory = 1,
-                   Price = 99.99m
+                   Price = 99.99m,
+                   IdBrand = 2
                },
                new Product
                {
                    Id = 4,
-                   Name = "Apple iPad Pro 12,9\" M1 Wi - Fi Space Gray",
+                   Name = "iPad Pro 12,9",
                    IdCategory = 2,
-                   Price = 119.99m
+                   Price = 119.99m,
+                   IdBrand = 1
                },
                new Product
                {
                    Id = 5,
-                   Name = "Silver Monkey Kabel USB 3.0 - USB-C 1,2m",
+                   Name = "Silver Monkey Kabel",
                    IdCategory = 3,
-                   Price = 9.99m
+                   Price = 9.99m,
+                   IdBrand = 3
                },
                new Product
                {
                    Id = 6,
-                   Name = "Microsoft 1850 Wireless Mobile Mouse",
+                   Name = "Microsoft 1850 Mouse",
                    IdCategory = 3,
-                   Price = 29.99m
+                   Price = 29.99m,
+                   IdBrand = 3
                },
                new Product
                {
                    Id = 7,
                    Name = "NuPhy Air75 Red, Gateron",
                    IdCategory = 3,
-                   Price = 9.99m
+                   Price = 9.99m,
+                   IdBrand = 3
                },
                new Product
                {
                    Id = 8,
-                   Name = "Xiaomi Pad 5 6/128GB Cosmic Gray 120Hz",
+                   Name = "Xiaomi Pad 5",
                    IdCategory = 2,
-                   Price = 69.99m
+                   Price = 69.99m,
+                   IdBrand = 3
                },
                new Product
                {
                    Id = 9,
-                   Name = "Samsung Galaxy Tab A8 X200 WiFi 4/64GB srebrny",
+                   Name = "Galaxy Tab A8",
                    IdCategory = 2,
-                   Price = 89.99m
+                   Price = 89.99m,
+                   IdBrand = 2
                },
                new Product
                {
                    Id = 10,
-                   Name = "Huawei MatePad Paper 4/64GB WiFi ",
+                   Name = "Huawei MatePad Paper",
                    IdCategory = 2,
-                   Price = 89.99m
+                   Price = 89.99m,
+                   IdBrand = 3
                },
                new Product
                {
                    Id = 11,
-                   Name = "ASUS RT-AC51 (750Mb/s a/b/g/n/ac)",
+                   Name = "ASUS RT-AC51",
                    IdCategory = 3,
-                   Price = 29.99m
+                   Price = 29.99m,
+                   IdBrand = 3
                }
-                        );
+            );
         }
 
     }

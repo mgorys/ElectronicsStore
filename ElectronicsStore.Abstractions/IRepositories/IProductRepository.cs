@@ -11,5 +11,6 @@ namespace ElectronicsStore.Abstractions.IRepositories
     public interface IProductRepository
     {
         Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category);
+        Task<ServerResponse<Product>> GetProductByNameAsync(string name);
     }
 }

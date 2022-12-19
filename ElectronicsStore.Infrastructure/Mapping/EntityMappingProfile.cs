@@ -14,7 +14,9 @@ namespace ElectronicsStore.Infrastructure.Mapping
         public EntityMappingProfile()
         {
             CreateMap<Product, ProductDto>()
-            .ForMember(m => m.CategoryName, n => n.MapFrom(b => b.Category.Name));
+            .ForMember(m => m.CategoryName, n => n.MapFrom(b => b.Category.Name))
+            .ForMember(m => m.BrandName, n => n.MapFrom(b => b.Brand.Name))
+            ;
 
             CreateMap<ProductDto, Product>();
             CreateMap<Category, CategoryDto>();

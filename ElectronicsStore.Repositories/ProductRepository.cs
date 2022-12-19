@@ -19,11 +19,34 @@ namespace ElectronicsStore.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task<ServerResponse<Product>> GetProductByNameAsync(string name)
+        {
+            var response = new ServerResponse<Product>();
+            var result = await _dbContext.Products
+                .Include(x => x.Category)
+                .Include(x => x.Brand)
+                .FirstOrDefaultAsync(x => x.Name == name);
+
+            if (result == null)
+            {
+                response.Success = false;
+                return response;
+            }
+            else
+            {
+                response.Success = true;
+            }
+            response.DataFromServer = result;
+            return response;
+        }
+
         public async Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category)
         {
             var response = new ServerResponse<IEnumerable<Product>>();
             var result = await _dbContext.Products
                 .Include(x=>x.Category)
+                .Include(x=>x.Brand)
                 .Where(x=>x.Category.Name == category)
                 .ToListAsync();
 

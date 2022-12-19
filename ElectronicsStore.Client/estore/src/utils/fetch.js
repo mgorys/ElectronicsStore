@@ -11,7 +11,6 @@ export async function get(endpoint, paramsObj) {
     method: 'GET',
     credentials: 'same-origin',
   });
-
   if (!response.ok) {
     console.log('error z url : ', wholeUrl);
     throw new Error(response.statusText);

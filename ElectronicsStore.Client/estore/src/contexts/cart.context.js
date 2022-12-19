@@ -4,6 +4,7 @@ const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
+  console.log('added to cart', productToAdd);
 
   if (existingCartItem) {
     return cartItems.map((cartItem) =>
@@ -12,7 +13,6 @@ const addCartItem = (cartItems, productToAdd) => {
         : cartItem
     );
   }
-  console.log('added', productToAdd);
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
@@ -64,12 +64,10 @@ export const CartProvider = ({ children }) => {
       0
     );
     setCartTotal(newCartTotal);
-    console.log(newCartTotal);
   }, [cartItems]);
 
   const addItemToCart = (productToAdd) => {
     setCartItems(addCartItem(cartItems, productToAdd));
-    console.log(cartItems);
   };
   const removeItemFromCart = (cartItemToRemove) => {
     setCartItems(removeCartItem(cartItems, cartItemToRemove));

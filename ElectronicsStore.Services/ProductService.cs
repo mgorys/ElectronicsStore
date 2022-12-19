@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ElectronicsStore.Abstractions.IRepositories;
 using ElectronicsStore.Abstractions.IServices;
+using ElectronicsStore.Entities;
 using ElectronicsStore.Infrastructure.Exceptions;
 using ElectronicsStore.Models;
 using ElectronicsStore.Models.Dto;
@@ -22,6 +23,18 @@ namespace ElectronicsStore.Services
             _productRepository = productRepository;
             _mapper = mapper;
         }
+
+        public async Task<ServerResponse<ProductDto>> GetProductByNameAsync(string name)
+        {
+            var resultDto = new ServerResponse<ProductDto>();
+            var result = await _productRepository.GetProductByNameAsync(name);
+            if (result.Success == false)
+                throw new NotFoundException("Sorry, entity has been not found");
+            resultDto.DataFromServer = _mapper.Map<ProductDto>(result.DataFromServer);
+            resultDto.Success = result.Success;
+            return resultDto;
+        }
+
         public async Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category)
         {
 
