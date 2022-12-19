@@ -1,0 +1,9 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  .nav-button-container {
+    display: flex;
+    align-items: flex-start;
+  }
+}

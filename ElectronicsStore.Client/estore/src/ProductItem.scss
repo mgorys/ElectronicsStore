@@ -1,0 +1,8 @@
+.productitem-container {
+  display: grid;
+  grid-template-columns: auto 100px 200px;
+  align-items: center;
+  .productitem-price {
+    display: flex;
+  }
+}

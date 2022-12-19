@@ -1,0 +1,19 @@
+.cart-container {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .cart-counter {
+    font-size: 30px;
+    font-weight: bold;
+    bottom: 12px;
+  }
+  .shoppingbag-icon {
+    width: 45px;
+    height: 45px;
+  }
+}
