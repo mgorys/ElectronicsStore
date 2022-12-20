@@ -10,6 +10,6 @@ namespace ElectronicsStore.Models
     {
         public T? DataFromServer { get; set; }
         public bool Success { get; set; } = false;
-        public int PagesCount { get; set; } = 1;
+        public int? PagesCount { get; set; } = 1;
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicsStore.Persistence.Migrations
 {
     [DbContext(typeof(EStoreDbContext))]
-    [Migration("20221219154259_updateEntities")]
-    partial class updateEntities
+    [Migration("20221220164549_data")]
+    partial class data
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace ElectronicsStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brand");
+                    b.ToTable("Brands");
 
                     b.HasData(
                         new

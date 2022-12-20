@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using ElectronicsStore.Abstractions.IRepositories;
 using ElectronicsStore.Abstractions.IServices;
 using ElectronicsStore.Entities;
@@ -32,21 +33,28 @@ namespace ElectronicsStore.Services
                 throw new NotFoundException("Sorry, entity has been not found");
             resultDto.DataFromServer = _mapper.Map<ProductDto>(result.DataFromServer);
             resultDto.Success = result.Success;
+            if (resultDto.DataFromServer.Description == null)
+                resultDto.DataFromServer.Description = "There is no important data in descr.";
+
+
             return resultDto;
         }
 
         public async Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, int? page)
         {
+            int pageSize = 5;
             if (page == null) page = 1;
             if( page < 1 )
                 throw new NotFoundException("Sorry, entities have been not found");
             var resultDto = new ServerResponse<IEnumerable<ProductDto>>();
-            var result = await _productRepository.GetProductsByCategoryAsync(category,page);
+            var result = await _productRepository.GetProductsByCategoryAsync(category,page,pageSize);
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<ProductDto>>(result.DataFromServer);
             resultDto.Success = result.Success;
-            resultDto.PagesCount = result.PagesCount;
+            int resultCount = await _productRepository.GetProductCount(category);
+            double count = (double)resultCount / (double)pageSize;
+            resultDto.PagesCount = (int)Math.Ceiling(count);
             return resultDto;
 
         }

@@ -6,4 +6,8 @@
     display: flex;
     align-items: flex-start;
   }
+  .nav-container-right {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
 }

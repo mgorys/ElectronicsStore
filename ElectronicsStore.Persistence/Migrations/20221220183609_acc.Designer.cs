@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicsStore.Persistence.Migrations
 {
     [DbContext(typeof(EStoreDbContext))]
-    [Migration("20221219082419_init")]
-    partial class init
+    [Migration("20221220183609_acc")]
+    partial class acc
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,40 @@ namespace ElectronicsStore.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ElectronicsStore.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Apple"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Samsung"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "NoName"
+                        });
+                });
 
             modelBuilder.Entity("ElectronicsStore.Entities.Category", b =>
                 {
@@ -66,6 +100,9 @@ namespace ElectronicsStore.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("IdBrand")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdCategory")
                         .HasColumnType("int");
 
@@ -78,6 +115,8 @@ namespace ElectronicsStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdBrand");
+
                     b.HasIndex("IdCategory");
 
                     b.ToTable("Products");
@@ -86,48 +125,95 @@ namespace ElectronicsStore.Persistence.Migrations
                         new
                         {
                             Id = 1,
+                            IdBrand = 1,
                             IdCategory = 1,
-                            Name = "Apple iPhone 13 Pro Max Graphite",
+                            Name = "iPhone 13 Pro Max",
                             Price = 109.99m
                         },
                         new
                         {
                             Id = 2,
+                            IdBrand = 3,
                             IdCategory = 1,
-                            Name = "OnePlus 9 5G Astral Black 120Hz",
+                            Name = "OnePlus 9",
                             Price = 89.99m
                         },
                         new
                         {
                             Id = 3,
+                            IdBrand = 2,
                             IdCategory = 1,
-                            Name = "Samsung Galaxy S21 FE 5G Fan Edition Grey",
+                            Name = "Galaxy S21 FE",
                             Price = 99.99m
                         },
                         new
                         {
+                            Id = 12,
+                            IdBrand = 1,
+                            IdCategory = 1,
+                            Name = "iPhone 14 Pro Max",
+                            Price = 129.99m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            IdBrand = 1,
+                            IdCategory = 1,
+                            Name = "iPhone 13",
+                            Price = 99.99m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            IdBrand = 1,
+                            IdCategory = 1,
+                            Name = "iPhone 11",
+                            Price = 69.99m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            IdBrand = 1,
+                            IdCategory = 1,
+                            Name = "iPhone 12",
+                            Price = 89.99m
+                        },
+                        new
+                        {
+                            Id = 16,
+                            IdBrand = 1,
+                            IdCategory = 1,
+                            Name = "iPhone 12 Max",
+                            Price = 95.99m
+                        },
+                        new
+                        {
                             Id = 4,
+                            IdBrand = 1,
                             IdCategory = 2,
-                            Name = "Apple iPad Pro 12,9\" M1 Wi - Fi Space Gray",
+                            Name = "iPad Pro 12,9",
                             Price = 119.99m
                         },
                         new
                         {
                             Id = 5,
+                            IdBrand = 3,
                             IdCategory = 3,
-                            Name = "Silver Monkey Kabel USB 3.0 - USB-C 1,2m",
+                            Name = "Silver Monkey Kabel",
                             Price = 9.99m
                         },
                         new
                         {
                             Id = 6,
+                            IdBrand = 3,
                             IdCategory = 3,
-                            Name = "Microsoft 1850 Wireless Mobile Mouse",
+                            Name = "Microsoft 1850 Mouse",
                             Price = 29.99m
                         },
                         new
                         {
                             Id = 7,
+                            IdBrand = 3,
                             IdCategory = 3,
                             Name = "NuPhy Air75 Red, Gateron",
                             Price = 9.99m
@@ -135,40 +221,73 @@ namespace ElectronicsStore.Persistence.Migrations
                         new
                         {
                             Id = 8,
+                            IdBrand = 3,
                             IdCategory = 2,
-                            Name = "Xiaomi Pad 5 6/128GB Cosmic Gray 120Hz",
+                            Name = "Xiaomi Pad 5",
                             Price = 69.99m
                         },
                         new
                         {
                             Id = 9,
+                            IdBrand = 2,
                             IdCategory = 2,
-                            Name = "Samsung Galaxy Tab A8 X200 WiFi 4/64GB srebrny",
+                            Name = "Galaxy Tab A8",
                             Price = 89.99m
                         },
                         new
                         {
                             Id = 10,
+                            IdBrand = 3,
                             IdCategory = 2,
-                            Name = "Huawei MatePad Paper 4/64GB WiFi ",
+                            Name = "Huawei MatePad Paper",
                             Price = 89.99m
                         },
                         new
                         {
                             Id = 11,
+                            IdBrand = 3,
                             IdCategory = 3,
-                            Name = "ASUS RT-AC51 (750Mb/s a/b/g/n/ac)",
+                            Name = "ASUS RT-AC51",
                             Price = 29.99m
                         });
                 });
 
+            modelBuilder.Entity("ElectronicsStore.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("ElectronicsStore.Entities.Product", b =>
                 {
+                    b.HasOne("ElectronicsStore.Entities.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("IdBrand")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ElectronicsStore.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("IdCategory")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Brand");
 
                     b.Navigation("Category");
                 });

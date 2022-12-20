@@ -35,7 +35,7 @@ namespace ElectronicsStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brand");
+                    b.ToTable("Brands");
 
                     b.HasData(
                         new
@@ -247,6 +247,27 @@ namespace ElectronicsStore.Persistence.Migrations
                             Name = "ASUS RT-AC51",
                             Price = 29.99m
                         });
+                });
+
+            modelBuilder.Entity("ElectronicsStore.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ElectronicsStore.Entities.Product", b =>

@@ -6,6 +6,7 @@ import Home from './Home';
 import Shop from './Shop';
 import Checkout from './Checkout';
 import ProductDetails from './ProductDetails';
+import Authorization from './Authorization';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="shop/*" element={<Shop />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="product/:name" element={<ProductDetails />} />
+          <Route path="auth" element={<Authorization />} />
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </Router>

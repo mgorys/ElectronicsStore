@@ -10,7 +10,8 @@ namespace ElectronicsStore.Abstractions.IRepositories
 {
     public interface IProductRepository
     {
-        Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page);
+        Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page, int pageSize);
         Task<ServerResponse<Product>> GetProductByNameAsync(string name);
+        Task<int> GetProductCount(string category);
     }
 }

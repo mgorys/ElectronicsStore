@@ -20,6 +20,7 @@ namespace ElectronicsStore.Infrastructure.Mapping
 
             CreateMap<ProductDto, Product>();
             CreateMap<Category, CategoryDto>();
+            CreateMap<RegisterDto, User>();
         }
     }
 }

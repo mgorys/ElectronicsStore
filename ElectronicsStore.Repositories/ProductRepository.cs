@@ -41,9 +41,8 @@ namespace ElectronicsStore.Repositories
             return response;
         }
 
-        public async Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page)
+        public async Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page ,int pageSize)
         {
-            int pageSize = 5;
             var response = new ServerResponse<IEnumerable<Product>>();
             var result = await _dbContext.Products
                 .Include(x=>x.Category)
@@ -63,10 +62,12 @@ namespace ElectronicsStore.Repositories
                 response.Success = true;
             }
             response.DataFromServer = result;
-            var resultCount = await _dbContext.Products.Where(x => x.Category.Name == category).CountAsync();
-            double count = (double)resultCount / (double)pageSize;
-            response.PagesCount = (int)Math.Ceiling(count);
             return response;
+        }
+        public async Task<int> GetProductCount(string category)
+        {
+            var resultCount = await _dbContext.Products.Where(x => x.Category.Name == category).CountAsync();
+            return resultCount;
         }
     }
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import Button from './button.component';
 import './Navigation.scss';
+import AuthButton from './AuthButton';
 
 const Navigation = () => {
   return (
@@ -19,7 +20,12 @@ const Navigation = () => {
             <Button>CHECKOUT</Button>
           </Link>
         </div>
-        <CartIcon />
+        <div className="nav-container-right">
+          <CartIcon />
+          <Link className="nav-link" to="/auth">
+            <AuthButton />
+          </Link>
+        </div>
       </div>
     </>
   );
