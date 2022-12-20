@@ -3,6 +3,7 @@ using ElectronicsStore.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectronicsStore.Persistence.Migrations
 {
     [DbContext(typeof(EStoreDbContext))]
-    partial class EStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221219153954_addEntities")]
+    partial class addEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,7 +150,7 @@ namespace ElectronicsStore.Persistence.Migrations
                         {
                             Id = 12,
                             IdBrand = 1,
-                            IdCategory = 1,
+                            IdCategory = 3,
                             Name = "iPhone 14 Pro Max",
                             Price = 129.99m
                         },
@@ -155,7 +158,7 @@ namespace ElectronicsStore.Persistence.Migrations
                         {
                             Id = 13,
                             IdBrand = 1,
-                            IdCategory = 1,
+                            IdCategory = 3,
                             Name = "iPhone 13",
                             Price = 99.99m
                         },
@@ -163,7 +166,7 @@ namespace ElectronicsStore.Persistence.Migrations
                         {
                             Id = 14,
                             IdBrand = 1,
-                            IdCategory = 1,
+                            IdCategory = 3,
                             Name = "iPhone 11",
                             Price = 69.99m
                         },
@@ -171,7 +174,7 @@ namespace ElectronicsStore.Persistence.Migrations
                         {
                             Id = 15,
                             IdBrand = 1,
-                            IdCategory = 1,
+                            IdCategory = 3,
                             Name = "iPhone 12",
                             Price = 89.99m
                         },
@@ -179,7 +182,7 @@ namespace ElectronicsStore.Persistence.Migrations
                         {
                             Id = 16,
                             IdBrand = 1,
-                            IdCategory = 1,
+                            IdCategory = 3,
                             Name = "iPhone 12 Max",
                             Price = 95.99m
                         },

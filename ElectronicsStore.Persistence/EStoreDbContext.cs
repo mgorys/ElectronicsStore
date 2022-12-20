@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -78,6 +79,46 @@ namespace ElectronicsStore.Persistence
                    Price = 99.99m,
                    IdBrand = 2
                },
+               new Product
+               {
+                   Id = 12,
+                   Name = "iPhone 14 Pro Max",
+                   IdCategory = 1,
+                   Price = 129.99m,
+                   IdBrand = 1
+               },
+               new Product
+               {
+                   Id = 13,
+                   Name = "iPhone 13",
+                   IdCategory = 1,
+                   Price = 99.99m,
+                   IdBrand = 1
+               },
+               new Product
+               {
+                   Id = 14,
+                   Name = "iPhone 11",
+                   IdCategory = 1,
+                   Price = 69.99m,
+                   IdBrand = 1
+               },
+                new Product
+                {
+                Id = 15,
+                   Name = "iPhone 12",
+                   IdCategory = 1,
+                   Price = 89.99m,
+                   IdBrand = 1
+               },
+                new Product
+                {
+                    Id = 16,
+                    Name = "iPhone 12 Max",
+                    IdCategory = 1,
+                    Price = 95.99m,
+                    IdBrand = 1
+                },
                new Product
                {
                    Id = 4,

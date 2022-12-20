@@ -35,15 +35,18 @@ namespace ElectronicsStore.Services
             return resultDto;
         }
 
-        public async Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category)
+        public async Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, int? page)
         {
-
+            if (page == null) page = 1;
+            if( page < 1 )
+                throw new NotFoundException("Sorry, entities have been not found");
             var resultDto = new ServerResponse<IEnumerable<ProductDto>>();
-            var result = await _productRepository.GetProductsByCategoryAsync(category);
+            var result = await _productRepository.GetProductsByCategoryAsync(category,page);
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<ProductDto>>(result.DataFromServer);
             resultDto.Success = result.Success;
+            resultDto.PagesCount = result.PagesCount;
             return resultDto;
 
         }

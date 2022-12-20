@@ -1,13 +1,11 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import { get } from '../utils/fetch';
-import { useParams } from 'react-router-dom';
 
 export const ProductsContext = createContext({
   product: {},
   fetchProduct: () => {},
 });
 export const ProductsProvider = ({ children }) => {
-  const { name } = useParams();
   const [product, setProduct] = useState({});
   const endpoint = 'product/getby';
 

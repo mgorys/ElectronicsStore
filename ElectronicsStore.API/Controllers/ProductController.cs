@@ -15,12 +15,13 @@ namespace ElectronicsStore.API.Controllers
             _productService = productService;
         }
         [HttpGet("{category}")]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductsByCategory([FromRoute]string category)
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductsByCategory([FromRoute]string category, [FromQuery]int? page)
         {
-            var products = await _productService.GetProductsByCategoryAsync(category);
+            var products = await _productService.GetProductsByCategoryAsync(category, page);
 
-            return Ok(products.DataFromServer);
+            return Ok(products);
         }
+        
         [HttpGet("getby/{name}")]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductByName([FromRoute] string name)
         {

@@ -1,8 +1,10 @@
-export async function get(endpoint, paramsObj) {
+export async function get(endpoint, paramsObj, page) {
   const url = 'https://localhost:7202/api/';
   let wholeUrl;
-  if (paramsObj !== '') {
-    wholeUrl = buildUrl(url, endpoint, paramsObj);
+  if (paramsObj !== '' && page !== undefined) {
+    wholeUrl = url + endpoint + '/' + paramsObj + '?page=' + page;
+  } else if (paramsObj !== '' && page === undefined) {
+    wholeUrl = url + endpoint + '/' + paramsObj;
   } else {
     wholeUrl = url + endpoint;
   }
@@ -37,15 +39,44 @@ export async function post(url, data) {
 
   return await response.json();
 }
+export async function postPurchase(url, data) {
+  let response = await fetch(url, {
+    body: JSON.stringify(data),
+    credentials: 'same-origin',
+    headers: {
+      'content-type': 'application/json',
+    },
+    method: 'POST',
+  });
 
-export function buildUrl(url, endpoint, paramsObj) {
-  let wholeUrl = url + endpoint;
-  if (paramsObj !== null) {
-    wholeUrl = wholeUrl + '/';
-    wholeUrl = wholeUrl + paramsObj;
+  if (!response.ok) {
+    throw new Error(response.statusText);
   }
-  return wholeUrl;
+
+  return await response.json();
 }
+
+// export function buildUrl(url, endpoint, paramsObj) {
+//   let wholeUrl = url + endpoint;
+//   if (paramsObj !== null) {
+//     wholeUrl = wholeUrl + '/' + paramsObj;
+//   }
+//   console.log('jestem');
+//   return wholeUrl;
+// }
+// export function buildUrlWithPage(url, endpoint, paramsObj, page) {
+//   let wholeUrl = url + endpoint;
+//   if (paramsObj !== null) {
+//     wholeUrl = wholeUrl + '/' + paramsObj;
+//   }
+
+//   if (page !== undefined) {
+//     wholeUrl = wholeUrl + '?page=' + page;
+//   } else {
+//     wholeUrl = wholeUrl + '?page=1';
+//   }
+//   return wholeUrl;
+// }
 
 // ??
 

@@ -1,18 +1,18 @@
 import React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import { CategoriesContext } from './contexts/categories.context';
-import Button from './button.component';
-import { get } from './utils/fetch';
 import { ProductsContext } from './contexts/products.context';
 import ProductItem from './ProductItem';
 import Categories from './Categories';
+import Pagination from './Pagination';
 
 const Shop = () => {
-  const { categoriesMap, hasItems, changedProducts } =
+  const { categoriesMap, hasItems, changedProducts, choosenCategory } =
     useContext(CategoriesContext);
   const { products } = useContext(ProductsContext);
   const [productsList, setProductsList] = useState();
   const [categories, setCategories] = useState(categoriesMap);
+  const { dataFromServer } = changedProducts;
 
   useEffect(() => {
     setCategories(categoriesMap);
@@ -29,12 +29,20 @@ const Shop = () => {
     <>
       <div className="category-container">
         <Categories categories={categories} />
-        {hasItems && Array.isArray(productsList) ? (
-          productsList.map((product) => (
+      </div>
+      <div className="productlist-container">
+        {hasItems && Array.isArray(dataFromServer) ? (
+          dataFromServer.map((product) => (
             <ProductItem product={product} key={product.id} />
           ))
         ) : (
           <div>Choose category to see items</div>
+        )}
+        {hasItems && Array.isArray(dataFromServer) && (
+          <Pagination
+            category={choosenCategory}
+            pagesCount={changedProducts.pagesCount}
+          />
         )}
       </div>
     </>
