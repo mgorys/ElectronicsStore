@@ -45,15 +45,28 @@ namespace ElectronicsStore.Services
             if (result == false)
                 throw new BadRequestException("Sorry, something went wrong");
         }
-        public async Task<string> GenerateJwt(LoginDto dto)
+        public async Task<LoggedUserInfo> LoginUserAsync(LoginDto login)
         {
-            var user = await _accountRepository.FindUserAsync(dto);
+            var user = new LoggedUserInfo();
+            var userName = await _accountRepository.FindUserAsync(login);
+            if (userName.DataFromServer is null)
+            {
+                throw new BadRequestException("Invalid username or password");
+            }
+            var token = await GenerateJwt(login);
+            user.UserName = userName.DataFromServer.Name;
+            user.Token = token;
+            return user;
+        }
+        public async Task<string> GenerateJwt(LoginDto login)
+        {
+            var user = await _accountRepository.FindUserAsync(login);
 
             if (user.DataFromServer is null)
             {
                 throw new BadRequestException("Invalid username or password");
             }
-            var result = _passwordHasher.VerifyHashedPassword(user.DataFromServer, user.DataFromServer.PasswordHash, dto.Password);
+            var result = _passwordHasher.VerifyHashedPassword(user.DataFromServer, user.DataFromServer.PasswordHash, login.Password);
             if (result == PasswordVerificationResult.Failed)
             {
                 throw new BadRequestException("Invalid username or password");

@@ -22,10 +22,10 @@ namespace ElectronicsStore.API.Controllers
             return StatusCode(201);
         }
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<LoggedUserInfo>> Login([FromBody] LoginDto loginDto)
         {
-            string token = await _accountService.GenerateJwt(loginDto);
-            return Ok(token);
+            LoggedUserInfo user = await _accountService.LoginUserAsync(loginDto);
+            return Ok(user);
 
         }
     }

@@ -2,9 +2,13 @@ import { useContext, useState } from 'react';
 import { CartContext } from './contexts/cart.context';
 import React from 'react';
 import CheckoutItem from './CheckoutItem';
+import { UserContext } from './contexts/user.context';
+import Button from './button.component';
+import { Link } from 'react-router-dom';
 
 const Checkout = () => {
   const { cartItems, cartTotal } = useContext(CartContext);
+  const { currentUser } = useContext(UserContext);
 
   return (
     <>
@@ -27,6 +31,13 @@ const Checkout = () => {
         </tbody>
       </table>
       <span className="total">Total: ${cartTotal.toFixed(2)}</span>
+      {currentUser ? (
+        <Button>Purchase</Button>
+      ) : (
+        <Link to="/auth">
+          <Button>Log In to Continue</Button>
+        </Link>
+      )}
     </>
   );
 };

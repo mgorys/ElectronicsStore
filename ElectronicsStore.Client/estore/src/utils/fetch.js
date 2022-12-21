@@ -1,5 +1,5 @@
+const url = 'https://localhost:7202/api/';
 export async function get(endpoint, paramsObj, page) {
-  const url = 'https://localhost:7202/api/';
   let wholeUrl;
   if (paramsObj !== '' && page !== undefined) {
     wholeUrl = url + endpoint + '/' + paramsObj + '?page=' + page;
@@ -23,8 +23,11 @@ export async function get(endpoint, paramsObj, page) {
   return result;
 }
 
-export async function post(url, data) {
-  let response = await fetch(url, {
+export async function loginUser(email, password) {
+  let data = { email, password };
+  let wholeUrl = url + 'account/login';
+  console.log(wholeUrl);
+  let response = await fetch(wholeUrl, {
     body: JSON.stringify(data),
     credentials: 'same-origin',
     headers: {
@@ -39,8 +42,12 @@ export async function post(url, data) {
 
   return await response.json();
 }
-export async function postPurchase(url, data) {
-  let response = await fetch(url, {
+
+export async function registerUser(email, password, confirmPassword, name) {
+  let data = { name, email, password, confirmPassword };
+  let wholeUrl = url + 'account/register';
+  console.log(wholeUrl);
+  let response = await fetch(wholeUrl, {
     body: JSON.stringify(data),
     credentials: 'same-origin',
     headers: {
@@ -52,51 +59,6 @@ export async function postPurchase(url, data) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-
-  return await response.json();
+  console.log(response);
+  return await response;
 }
-
-// export function buildUrl(url, endpoint, paramsObj) {
-//   let wholeUrl = url + endpoint;
-//   if (paramsObj !== null) {
-//     wholeUrl = wholeUrl + '/' + paramsObj;
-//   }
-//   console.log('jestem');
-//   return wholeUrl;
-// }
-// export function buildUrlWithPage(url, endpoint, paramsObj, page) {
-//   let wholeUrl = url + endpoint;
-//   if (paramsObj !== null) {
-//     wholeUrl = wholeUrl + '/' + paramsObj;
-//   }
-
-//   if (page !== undefined) {
-//     wholeUrl = wholeUrl + '?page=' + page;
-//   } else {
-//     wholeUrl = wholeUrl + '?page=1';
-//   }
-//   return wholeUrl;
-// }
-
-// ??
-
-//   if (!(url.endsWith('?') || url.endsWith('&')) && paramsObj != null) {
-//     wholeUrl = wholeUrl + '?';
-//   }
-//   if (paramsObj !== null) {
-//     wholeUrl = wholeUrl + convertToURLParams(paramsObj);
-//   }
-
-//   console.log('url', wholeUrl);
-//   return wholeUrl;
-// }
-// function convertToURLParams(object) {
-//   var str = '';
-//   for (var key in object) {
-//     if (str !== '') {
-//       str += '&';
-//     }
-//     str += key + '=' + encodeURIComponent(object[key]);
-//   }
-//   return str;
-// }

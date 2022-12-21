@@ -11,5 +11,6 @@ namespace ElectronicsStore.Abstractions.IServices
     {
         Task RegisterUserAsync(RegisterDto registerUser);
         Task<string> GenerateJwt(LoginDto dto);
+        Task<LoggedUserInfo> LoginUserAsync(LoginDto login);
     }
 }

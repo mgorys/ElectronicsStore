@@ -29,6 +29,7 @@ namespace ElectronicsStore.Repositories
             var newUser = new User()
             {
                 Email = registerUser.Email,
+                Name = registerUser.Name,
             };
 
             if (registerUser == null)
