@@ -5,10 +5,14 @@ import CheckoutItem from './CheckoutItem';
 import { UserContext } from './contexts/user.context';
 import Button from './button.component';
 import { Link } from 'react-router-dom';
+import { postPurchase } from './utils/fetch';
 
 const Checkout = () => {
   const { cartItems, cartTotal } = useContext(CartContext);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, token } = useContext(UserContext);
+  const handleSubmitPurchase = () => {
+    const cartValue = postPurchase(cartItems, token);
+  };
 
   return (
     <>
@@ -32,7 +36,7 @@ const Checkout = () => {
       </table>
       <span className="total">Total: ${cartTotal.toFixed(2)}</span>
       {currentUser ? (
-        <Button>Purchase</Button>
+        <Button onClick={handleSubmitPurchase}>Purchase</Button>
       ) : (
         <Link to="/auth">
           <Button>Log In to Continue</Button>

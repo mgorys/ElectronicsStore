@@ -39,7 +39,7 @@ export async function loginUser(email, password) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-
+  console.log(response);
   return await response.json();
 }
 
@@ -60,5 +60,30 @@ export async function registerUser(email, password, confirmPassword, name) {
     throw new Error(response.statusText);
   }
   console.log(response);
+  return await response;
+}
+
+export async function postPurchase(cart, token) {
+  let data = [];
+  cart.forEach((element) => {
+    data.push({ name: element.name, count: element.quantity });
+  });
+  let wholeUrl = url + 'purchase';
+  let response = await fetch(wholeUrl, {
+    body: JSON.stringify(data),
+    credentials: 'same-origin',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+    method: 'POST',
+  });
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  console.log('Response', response);
+  if (response.status === 200) {
+    alert(`Purchase completed, value of cart ${response.value}`);
+  }
   return await response;
 }

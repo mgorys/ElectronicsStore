@@ -7,9 +7,9 @@ const AuthButton = () => {
   const { currentUser, signOutUserFromContext } = useContext(UserContext);
 
   const signOutUser = () => {
-    alert('sign out');
     signOutUserFromContext();
     console.log(currentUser);
+    if (currentUser === null) alert('sign out');
   };
   return (
     <div>

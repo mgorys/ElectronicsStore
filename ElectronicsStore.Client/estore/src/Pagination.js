@@ -17,14 +17,15 @@ const Paginate = ({ pagesCount, category }) => {
   return (
     <div className="pagination-container">
       <ul className="pagination">
-        {pageNumbers.reverse().map((number) => (
-          <button
-            onClick={(e) => handleClick(e.target.value)}
-            key={number}
-            value={number}>
-            {number}
-          </button>
-        ))}
+        {pageNumbers.length > 1 &&
+          pageNumbers.reverse().map((number) => (
+            <button
+              onClick={(e) => handleClick(e.target.value)}
+              key={number}
+              value={number}>
+              {number}
+            </button>
+          ))}
       </ul>
     </div>
   );
