@@ -1,9 +1,14 @@
 import React from 'react';
+import './Home.scss';
 
 const Home = () => {
   return (
     <>
-      <h2>Welcome to the ShopShop</h2>
+      <div className="home-background">
+        <div className="home-transbox">
+          <h1 className="home-title">Recharge Electronics</h1>
+        </div>
+      </div>
     </>
   );
 };

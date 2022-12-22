@@ -5,6 +5,7 @@ import { useState } from 'react';
 import FormInput from './FormInput';
 import { useContext } from 'react';
 import { UserContext } from './contexts/user.context';
+import toastr from 'reactjs-toastr/lib/react-toast';
 
 const defaultFormFields = {
   email: '',

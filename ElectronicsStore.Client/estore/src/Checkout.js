@@ -7,6 +7,7 @@ import Button from './button.component';
 import { Link } from 'react-router-dom';
 import { postPurchase } from './utils/fetch';
 import './Checkout.scss';
+import toastr from 'reactjs-toastr/lib/react-toast';
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCartItems } = useContext(CartContext);
