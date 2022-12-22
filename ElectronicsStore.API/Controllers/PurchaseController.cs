@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectronicsStore.API.Controllers
 {
     [ApiController]
-        [Authorize]
+    [Authorize]
     [Route("api/purchase")]
     public class PurchaseController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace ElectronicsStore.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CartValueDto>> PostPurchase([FromBody] IEnumerable<PurchaseItemDto> purchase)
         {
-            var products = await _purchaseService.PostPurchaseAsync(purchase)
+            var products = await _purchaseService.PostPurchaseAsync(purchase);
             
             return Ok(products);
         }

@@ -11,13 +11,13 @@ const Navigation = () => {
       <div className="nav-container">
         <div className="nav-button-container">
           <Link className="nav-link" to="/">
-            <Button>BACK HOME</Button>
+            <Button buttonType="classic">BACK HOME</Button>
           </Link>
           <Link className="nav-link" to="/shop">
-            <Button>SHOP</Button>
+            <Button buttonType="classic">SHOP</Button>
           </Link>
           <Link className="nav-link" to="/checkout">
-            <Button>CHECKOUT</Button>
+            <Button buttonType="classic">CHECKOUT</Button>
           </Link>
         </div>
         <div className="nav-container-right">

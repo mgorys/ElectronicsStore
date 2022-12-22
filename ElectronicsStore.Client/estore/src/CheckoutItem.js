@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { CartContext } from './contexts/cart.context';
+import Button from './button.component';
 
 const CheckoutItem = ({ cartItem }) => {
   const { name, price, quantity } = cartItem;
@@ -7,10 +8,12 @@ const CheckoutItem = ({ cartItem }) => {
   const clearItemHandler = () => clearItemFromCart(cartItem);
   return (
     <>
-      <td>{name}</td>
-      <td>{quantity}</td>
-      <td>{price}</td>
-      <td onClick={clearItemHandler}>X</td>
+      <h2>{name}</h2>
+      <h2>{quantity}</h2>
+      <h2>{price}</h2>
+      <div onClick={clearItemHandler}>
+        <Button buttonType="classic">Remove</Button>
+      </div>
     </>
   );
 };

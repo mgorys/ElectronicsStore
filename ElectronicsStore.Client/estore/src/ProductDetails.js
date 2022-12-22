@@ -4,11 +4,12 @@ import { useParams } from 'react-router-dom';
 import { ProductsContext } from './contexts/products.context';
 import { CartContext } from './contexts/cart.context';
 import Button from './button.component';
+import './ProductDetails.scss';
 
 const ProductDetails = () => {
   const { name } = useParams();
   const { product, fetchProduct } = useContext(ProductsContext);
-  const { price, brandName } = product;
+  const { price, brandName, description } = product;
   const { addItemToCart } = useContext(CartContext);
   const addProductToCart = () => addItemToCart(product);
 
@@ -21,11 +22,14 @@ const ProductDetails = () => {
   return (
     <>
       {product ? (
-        <div>
+        <div className="productdetails-container">
           <h2>{product.name}</h2>
-          <h2>{price}</h2>
-          <h2>{brandName}</h2>
-          <Button onClick={addProductToCart}>Add to cart</Button>
+          <h3>{price}</h3>
+          <h3>{brandName}</h3>
+          <h3>{description}</h3>
+          <Button buttonType="classic" onClick={addProductToCart}>
+            Add to cart
+          </Button>
         </div>
       ) : (
         <div>

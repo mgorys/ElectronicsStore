@@ -46,7 +46,6 @@ export async function loginUser(email, password) {
 export async function registerUser(email, password, confirmPassword, name) {
   let data = { name, email, password, confirmPassword };
   let wholeUrl = url + 'account/register';
-  console.log(wholeUrl);
   let response = await fetch(wholeUrl, {
     body: JSON.stringify(data),
     credentials: 'same-origin',
@@ -81,9 +80,5 @@ export async function postPurchase(cart, token) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-  console.log('Response', response);
-  if (response.status === 200) {
-    alert(`Purchase completed, value of cart ${response.value}`);
-  }
-  return await response;
+  return await response.json();
 }

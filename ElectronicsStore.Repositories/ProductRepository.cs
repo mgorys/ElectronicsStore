@@ -48,7 +48,7 @@ namespace ElectronicsStore.Repositories
                 .Include(x=>x.Category)
                 .Include(x=>x.Brand)
                 .Where(x=>x.Category.Name == category)
-                .Skip(pageSize * ((int)page - 1))
+                .Skip(pageSize * ((int)(page == null ? 1 : pageSize) - 1))
                 .Take(pageSize)
                 .ToListAsync();
 

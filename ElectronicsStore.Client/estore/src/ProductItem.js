@@ -16,7 +16,9 @@ const ProductItem = ({ product }) => {
           <h2>{name}</h2>
         </Link>
         <h2 className="productitem-price">{price}</h2>
-        <Button onClick={addProductToCart}>Add to cart</Button>
+        <Button buttonType="classic" onClick={addProductToCart}>
+          Add to cart
+        </Button>
       </div>
     </>
   );

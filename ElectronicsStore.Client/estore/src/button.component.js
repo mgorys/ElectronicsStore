@@ -1,8 +1,15 @@
 import React from 'react';
 import './button.component.scss';
-const Button = ({ children, ...otherProps }) => {
+const BUTTON_TYPE_CLASSES = {
+  invertedpagination: 'inverted-pagination',
+  classic: 'classic',
+  inverted: 'inverted',
+};
+const Button = ({ children, buttonType, ...otherProps }) => {
   return (
-    <button className="button-container" {...otherProps}>
+    <button
+      className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`}
+      {...otherProps}>
       {children}
     </button>
   );

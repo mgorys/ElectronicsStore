@@ -1,10 +1,11 @@
 import React from 'react';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
+import './Authorization.scss';
 
 const Authorization = () => {
   return (
-    <div>
+    <div className="authentication-container">
       <SignInForm />
       <SignUpForm />
     </div>

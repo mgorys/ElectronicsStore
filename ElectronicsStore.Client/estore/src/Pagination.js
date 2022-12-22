@@ -1,6 +1,8 @@
 import React from 'react';
 import { useContext } from 'react';
 import { CategoriesContext } from './contexts/categories.context';
+import './Pagination.scss';
+import Button from './button.component';
 
 const Paginate = ({ pagesCount, category }) => {
   const { changeCategoryWithPage } = useContext(CategoriesContext);
@@ -16,17 +18,16 @@ const Paginate = ({ pagesCount, category }) => {
 
   return (
     <div className="pagination-container">
-      <ul className="pagination">
-        {pageNumbers.length > 1 &&
-          pageNumbers.reverse().map((number) => (
-            <button
-              onClick={(e) => handleClick(e.target.value)}
-              key={number}
-              value={number}>
-              {number}
-            </button>
-          ))}
-      </ul>
+      {pageNumbers.length > 1 &&
+        pageNumbers.reverse().map((number) => (
+          <Button
+            buttonType="invertedpagination"
+            onClick={(e) => handleClick(e.target.value)}
+            key={number}
+            value={number}>
+            {number}
+          </Button>
+        ))}
     </div>
   );
 };
