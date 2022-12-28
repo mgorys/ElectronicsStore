@@ -1,0 +1,44 @@
+.checkout-container {
+  margin-right: 50px;
+  .checkout-header {
+    margin-left: 30px;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: auto 150px 150px 170px;
+    .header-block {
+      text-align: center;
+    }
+    .header-block-product {
+      text-align: left;
+    }
+  }
+  .checkoutitem-container {
+    margin-left: 30px;
+    display: grid;
+    grid-template-columns: auto 150px 150px 170px;
+    align-items: center;
+
+    .checkoutitem-price {
+      text-align: right;
+      margin-right: 5px;
+    }
+    .checkoutitem-quantity {
+      text-align: center;
+      margin-right: 5px;
+    }
+
+    .checkoutitem-name {
+      text-align: left;
+      text-decoration: none;
+      color: black;
+    }
+  }
+}
+.checkout-summary {
+  margin-left: 30px;
+
+  .total {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -1,14 +1,19 @@
 import React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { CategoriesContext } from './contexts/categories.context';
-import { ProductsContext } from './contexts/products.context';
+import { CategoriesContext } from '../contexts/categories.context';
+import { ProductsContext } from '../contexts/products.context';
 import ProductItem from './ProductItem';
 import Categories from './Categories';
 import Pagination from './Pagination';
 
 const Shop = () => {
-  const { categoriesMap, hasItems, changedProducts, choosenCategory } =
-    useContext(CategoriesContext);
+  const {
+    categoriesMap,
+    hasItems,
+    changedProducts,
+    choosenCategory,
+    searchProces,
+  } = useContext(CategoriesContext);
   const { products } = useContext(ProductsContext);
   const [productsList, setProductsList] = useState();
   const [categories, setCategories] = useState(categoriesMap);
@@ -40,6 +45,7 @@ const Shop = () => {
         )}
         {hasItems && Array.isArray(dataFromServer) && (
           <Pagination
+            searchProces={searchProces}
             category={choosenCategory}
             pagesCount={changedProducts.pagesCount}
           />

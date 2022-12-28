@@ -11,6 +11,7 @@ namespace ElectronicsStore.Abstractions.IServices
     public interface IProductService
     {
         Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, int? page);
+        Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsBySearchAsync(string search, int? page);
         Task<ServerResponse<ProductDto>> GetProductByNameAsync(string name);
     }
 }

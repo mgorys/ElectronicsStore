@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
-import { CartContext } from './contexts/cart.context';
+import { CartContext } from '../contexts/cart.context';
 import React from 'react';
 import CheckoutItem from './CheckoutItem';
-import { UserContext } from './contexts/user.context';
-import Button from './button.component';
+import { UserContext } from '../contexts/user.context';
+import Button from '../button.component';
 import { Link } from 'react-router-dom';
-import { postPurchase } from './utils/fetch';
+import { postPurchase } from '../utils/fetch';
 import './Checkout.scss';
 import toastr from 'reactjs-toastr/lib/react-toast';
 
@@ -24,7 +24,7 @@ const Checkout = () => {
       <div className="checkout-container">
         <div>
           <div className="checkout-header">
-            <h1 className="header-block">Product</h1>
+            <h1 className="header-block-product">Product</h1>
             <h1 className="header-block">Quantity</h1>
             <h1 className="header-block">Price</h1>
             <div className="header-block" />
@@ -40,7 +40,7 @@ const Checkout = () => {
         </div>
       </div>
       <div className="checkout-summary">
-        <h3 className="total">Total: ${cartTotal.toFixed(2)}</h3>
+        <h3 className="total">Total: {cartTotal.toFixed(2)}PLN</h3>
         {currentUser ? (
           <Button buttonType="classic" onClick={handleSubmitPurchase}>
             Purchase

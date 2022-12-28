@@ -1,10 +1,10 @@
 import React from 'react';
-import { loginUser } from './utils/fetch';
-import Button from './button.component';
+import { loginUser } from '../utils/fetch';
+import Button from '../button.component';
 import { useState } from 'react';
 import FormInput from './FormInput';
 import { useContext } from 'react';
-import { UserContext } from './contexts/user.context';
+import { UserContext } from '../contexts/user.context';
 import toastr from 'reactjs-toastr/lib/react-toast';
 
 const defaultFormFields = {

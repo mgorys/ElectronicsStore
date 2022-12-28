@@ -8,11 +8,17 @@ export const CategoriesContext = createContext({
   changeCategory: () => {},
   changeCategoryWithPage: () => {},
   choosenCategory: {},
+  searchProducts: () => {},
+  searchProductsWithpage: () => {},
+  searchProces: false,
+  searchRequest: {},
 });
 export const CategoriesProvider = ({ children }) => {
   const [categoriesMap, setCategoriesMap] = useState({});
   const [changedProducts, setChangedProducts] = useState([]);
   const [hasItems, setHasItems] = useState(false);
+  const [searchProces, setSearchProces] = useState(false);
+  const [searchRequest, setSearchRequest] = useState(null);
   const [choosenCategory, setChoosenCategory] = useState(null);
   let endpoint = 'category';
   let paramsObj = '';
@@ -29,11 +35,27 @@ export const CategoriesProvider = ({ children }) => {
     setChangedProducts(fetchedData);
     setChoosenCategory(e);
     setHasItems(true);
+    setSearchProces(false);
   }
   async function changeCategoryWithPage(e, f) {
     const fetchedData = await get('product', e, f);
     setChangedProducts(fetchedData);
     setHasItems(true);
+    setSearchProces(false);
+  }
+
+  async function searchProducts(e) {
+    const fetchedData = await get('product/search', e);
+    setChangedProducts(fetchedData);
+    setSearchRequest(e);
+    setHasItems(true);
+    setSearchProces(true);
+  }
+  async function searchProductsWithpage(e, f) {
+    const fetchedData = await get('product/search', e, f);
+    setChangedProducts(fetchedData);
+    setHasItems(true);
+    setSearchProces(true);
   }
 
   const value = {
@@ -43,6 +65,10 @@ export const CategoriesProvider = ({ children }) => {
     changedProducts,
     changeCategoryWithPage,
     choosenCategory,
+    searchProducts,
+    searchProces,
+    searchRequest,
+    searchProductsWithpage,
   };
   return (
     <CategoriesContext.Provider value={value}>

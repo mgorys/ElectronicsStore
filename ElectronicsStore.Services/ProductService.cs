@@ -52,7 +52,25 @@ namespace ElectronicsStore.Services
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<ProductDto>>(result.DataFromServer);
             resultDto.Success = result.Success;
-            int resultCount = await _productRepository.GetProductCount(category);
+            int resultCount = await _productRepository.GetProductsByCategoryCount(category);
+            double count = (double)resultCount / (double)pageSize;
+            resultDto.PagesCount = (int)Math.Ceiling(count);
+            return resultDto;
+
+        }
+        public async Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsBySearchAsync(string search, int? page)
+        {
+            int pageSize = 5;
+            if (page == null) page = 1;
+            if (page < 1)
+                throw new NotFoundException("Sorry, entities have been not found");
+            var resultDto = new ServerResponse<IEnumerable<ProductDto>>();
+            var result = await _productRepository.GetProductsBySearchAsync(search, page, pageSize);
+            if (result.Success == false)
+                throw new NotFoundException("Sorry, entities have been not found");
+            resultDto.DataFromServer = _mapper.Map<IEnumerable<ProductDto>>(result.DataFromServer);
+            resultDto.Success = result.Success;
+            int resultCount = await _productRepository.GetProductsBySearchCount(search);
             double count = (double)resultCount / (double)pageSize;
             resultDto.PagesCount = (int)Math.Ceiling(count);
             return resultDto;

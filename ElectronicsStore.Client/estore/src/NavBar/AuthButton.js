@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import Button from './button.component';
-import { UserContext } from './contexts/user.context';
+import Button from '../button.component';
+import { UserContext } from '../contexts/user.context';
 import './AuthButton.scss';
 
 const AuthButton = () => {
@@ -14,7 +14,7 @@ const AuthButton = () => {
   return (
     <div>
       {currentUser ? (
-        <Button buttonType="classic">
+        <Button buttonType="inverted">
           <div className="nav-link" onClick={signOutUser}>
             SIGN OUT
           </div>

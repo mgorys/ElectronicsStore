@@ -1,0 +1,12 @@
+.productdetails-container {
+  margin-top: 50px;
+  margin-left: 30px;
+  display: flex;
+  .productdetails-image {
+    width: 500px;
+    height: 500px;
+  }
+  .productdetails-container-details {
+    margin-right: 50px;
+  }
+}

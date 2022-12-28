@@ -1,11 +1,12 @@
 import React from 'react';
 import { useContext } from 'react';
-import { CategoriesContext } from './contexts/categories.context';
+import { CategoriesContext } from '../contexts/categories.context';
 import './Pagination.scss';
-import Button from './button.component';
+import Button from '../button.component';
 
-const Paginate = ({ pagesCount, category }) => {
-  const { changeCategoryWithPage } = useContext(CategoriesContext);
+const Paginate = ({ pagesCount, category, searchProces }) => {
+  const { changeCategoryWithPage, searchProductsWithpage, searchRequest } =
+    useContext(CategoriesContext);
   const pageNumbers = [];
 
   for (let i = pagesCount; i > 0; i--) {
@@ -13,7 +14,8 @@ const Paginate = ({ pagesCount, category }) => {
   }
 
   const handleClick = (page) => {
-    changeCategoryWithPage(category, page);
+    if (!searchProces) changeCategoryWithPage(category, page);
+    else searchProductsWithpage(searchRequest, page);
   };
 
   return (

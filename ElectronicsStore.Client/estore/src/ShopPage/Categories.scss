@@ -1,0 +1,23 @@
+.categories-container {
+  display: grid;
+  grid-template-columns: auto 500px;
+  margin: 5px;
+  .categoires-buttons-container {
+    display: grid;
+    grid-template-columns: 170px 170px 170px;
+  }
+  .searchField {
+    display: flex;
+    text-align: right;
+    .search-input {
+      text-align: right;
+      background: none;
+      background-color: white;
+      font-size: 18px;
+      display: block;
+      width: 100%;
+      padding: 5px;
+      margin: 2px;
+    }
+  }
+}

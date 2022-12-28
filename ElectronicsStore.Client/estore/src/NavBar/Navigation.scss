@@ -3,11 +3,12 @@
   justify-content: space-between;
   margin: 5px;
   .nav-button-container {
-    display: flex;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 170px 170px 170px;
   }
   .nav-container-right {
+    margin: 0px;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
   }
 }

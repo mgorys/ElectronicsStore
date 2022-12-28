@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FormInput from './FormInput';
-import Button from './button.component';
-import { registerUser } from './utils/fetch';
+import Button from '../button.component';
+import { registerUser } from '../utils/fetch';
 
 const defaultFormFields = {
   displayName: '',

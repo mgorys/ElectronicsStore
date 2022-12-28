@@ -7,9 +7,9 @@ export const ProductsContext = createContext({
 });
 export const ProductsProvider = ({ children }) => {
   const [product, setProduct] = useState({});
-  const endpoint = 'product/getby';
 
   async function fetchProduct(name) {
+    const endpoint = 'product/getby';
     const fetchedData = await get(endpoint, name);
     setProduct(fetchedData);
   }

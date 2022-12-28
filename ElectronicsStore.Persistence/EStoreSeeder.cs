@@ -16,30 +16,30 @@ namespace ElectronicsStore.Persistence
         {
             _dbContext = dbContext;
         }
-        public void Seed()
-        {
-            if (_dbContext.Database.CanConnect())
-            {
-                if (!_dbContext.Products.Any())
-                {
-                    var products = GetProducts();
-                    _dbContext.Products.AddRange(products);
-                    _dbContext.SaveChanges();
-                }
-                if (!_dbContext.Categories.Any())
-                {
-                    var categories = GetCategories();
-                    _dbContext.Categories.AddRange(categories);
-                    _dbContext.SaveChanges();
-                }
-                if (!_dbContext.Brands.Any())
-                {
-                    var brands = GetBrands();
-                    _dbContext.Brands.AddRange(brands);
-                    _dbContext.SaveChanges();
-                }
-            }
-        }
+        //public void Seed()
+        //{
+        //    if (_dbContext.Database.CanConnect())
+        //    {
+        //        if (!_dbContext.Products.Any())
+        //        {
+        //            var products = GetProducts();
+        //            _dbContext.Products.AddRange(products);
+        //            _dbContext.SaveChanges();
+        //        }
+        //        if (!_dbContext.Categories.Any())
+        //        {
+        //            var categories = GetCategories();
+        //            _dbContext.Categories.AddRange(categories);
+        //            _dbContext.SaveChanges();
+        //        }
+        //        if (!_dbContext.Brands.Any())
+        //        {
+        //            var brands = GetBrands();
+        //            _dbContext.Brands.AddRange(brands);
+        //            _dbContext.SaveChanges();
+        //        }
+        //    }
+        //}
         private IEnumerable<Brand> GetBrands()
         {
             return new List<Brand>()
@@ -100,7 +100,7 @@ namespace ElectronicsStore.Persistence
                    Name = "OnePlus 9",
                    IdCategory = 1,
                    Price = 89.99m,
-                   IdBrand = 3
+                   IdBrand = 3,
                },
                new Product()
                {
@@ -108,7 +108,8 @@ namespace ElectronicsStore.Persistence
                    Name = "Galaxy S21 FE",
                    IdCategory = 1,
                    Price = 99.99m,
-                   IdBrand = 2
+                   IdBrand = 2,
+                    
                },
                new Product()
                {

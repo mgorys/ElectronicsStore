@@ -16,5 +16,6 @@ namespace ElectronicsStore.Models.Dto
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string BrandName { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

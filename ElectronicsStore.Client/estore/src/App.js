@@ -1,12 +1,12 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotFound from './NotFound';
-import Navigation from './Navigation';
-import Home from './Home';
-import Shop from './Shop';
-import Checkout from './Checkout';
-import ProductDetails from './ProductDetails';
-import Authorization from './Authorization';
+import Navigation from './NavBar/Navigation';
+import Home from './HomePage/Home';
+import Shop from './ShopPage/Shop';
+import Checkout from './CheckoutPage/Checkout';
+import ProductDetails from './ProductDetails/ProductDetails';
+import Authorization from './AuthPage/Authorization';
 
 function App() {
   return (

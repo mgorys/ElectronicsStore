@@ -29,6 +29,13 @@ namespace ElectronicsStore.API.Controllers
 
             return Ok(products.DataFromServer);
         }
+        [HttpGet("search/{search}")]
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductBySearch([FromRoute] string search, [FromQuery] int? page)
+        {
+            var products = await _productService.GetProductsBySearchAsync(search, page);
+
+            return Ok(products);
+        }
 
     }
 }

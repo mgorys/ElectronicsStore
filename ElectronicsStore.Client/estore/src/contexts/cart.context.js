@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import { useLocalStorage } from '../utils/useLocalStorage';
 
 const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
@@ -47,7 +48,7 @@ export const CartContext = createContext({
 });
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useLocalStorage('cart-items', []);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
 
