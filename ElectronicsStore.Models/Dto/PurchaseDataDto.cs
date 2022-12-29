@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ElectronicsStore.Models.Dto
 {
-    public class CartValueDto
+    public class PurchaseDataDto<T>
     {
-        public decimal Value { get; set; }
+        public T? PurchaseList { get; set; }
+        public string Email { get; set; }
     }
 }

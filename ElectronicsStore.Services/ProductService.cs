@@ -35,8 +35,6 @@ namespace ElectronicsStore.Services
             resultDto.Success = result.Success;
             if (resultDto.DataFromServer.Description == null)
                 resultDto.DataFromServer.Description = "There is no important data in descr.";
-
-
             return resultDto;
         }
 

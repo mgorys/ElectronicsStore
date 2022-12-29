@@ -4,23 +4,28 @@ import React from 'react';
 import CheckoutItem from './CheckoutItem';
 import { UserContext } from '../contexts/user.context';
 import Button from '../button.component';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, redirect } from 'react-router-dom';
 import { postPurchase } from '../utils/fetch';
 import './Checkout.scss';
 import toastr from 'reactjs-toastr/lib/react-toast';
 
 const Checkout = () => {
-  const { cartItems, cartTotal, clearCartItems } = useContext(CartContext);
+  const { cartItems, cartTotal, clearCartItems, postPurchaseOrder } =
+    useContext(CartContext);
   const { currentUser, token } = useContext(UserContext);
+  const [purchaseFinished, setPurchaseFinished] = useState(false);
   const handleSubmitPurchase = async () => {
-    let cartValue = await postPurchase(cartItems, token);
-    if (cartValue !== undefined && cartValue !== null)
-      alert(`Purchase completed, value of cart ${cartValue.value}`);
-    clearCartItems();
+    let orderDetails = await postPurchaseOrder(cartItems, token);
+    if (orderDetails !== undefined && orderDetails !== null) {
+      alert('Purchase completed');
+      clearCartItems();
+      setPurchaseFinished(true);
+    }
   };
 
   return (
     <>
+      {purchaseFinished && <Navigate to="/purchase" />}
       <div className="checkout-container">
         <div>
           <div className="checkout-header">
@@ -41,6 +46,9 @@ const Checkout = () => {
       </div>
       <div className="checkout-summary">
         <h3 className="total">Total: {cartTotal.toFixed(2)}PLN</h3>
+        <Button buttonType="classic" onClick={handleSubmitPurchase}>
+          Purchase
+        </Button>
         {currentUser ? (
           <Button buttonType="classic" onClick={handleSubmitPurchase}>
             Purchase

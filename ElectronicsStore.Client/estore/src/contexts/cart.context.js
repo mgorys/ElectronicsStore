@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import { useLocalStorage } from '../utils/useLocalStorage';
+import { postPurchase } from '../utils/fetch';
 
 const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
@@ -45,12 +46,15 @@ export const CartContext = createContext({
   clearItemFromCart: () => {},
   cartTotal: 0,
   clearCartItems: () => {},
+  orderDetails: [],
+  postPurchaseOrder: () => {},
 });
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useLocalStorage('cart-items', []);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
+  const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
     const newCartCount = cartItems.reduce(
@@ -80,6 +84,12 @@ export const CartProvider = ({ children }) => {
   const clearCartItems = () => {
     setCartItems([]);
   };
+  const postPurchaseOrder = async (e, f) => {
+    let order = await postPurchase(e, f);
+    console.log(order);
+    setOrderDetails(order);
+    return order;
+  };
 
   const value = {
     isCartOpen,
@@ -91,6 +101,8 @@ export const CartProvider = ({ children }) => {
     clearItemFromCart,
     cartTotal,
     clearCartItems,
+    orderDetails,
+    postPurchaseOrder,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

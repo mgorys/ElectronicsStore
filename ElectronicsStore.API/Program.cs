@@ -15,6 +15,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using ElectronicsStore.Models.Dto;
 using ElectronicsStore.Models.Authentication;
+using ElectronicsStore.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,14 +47,19 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+//Services
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+//Repositories
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterDto>, RegisterUserDtoValidator>();
 builder.Services.AddAutoMapper(cfg =>
@@ -61,7 +67,8 @@ builder.Services.AddAutoMapper(cfg =>
 
 builder.Services.AddDbContext<EStoreDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EStoreConnectionString")));
-//builder.Services.AddScoped<EStoreSeeder>();
+//Seeder
+builder.Services.AddScoped<EStoreSeeder>();
 
 builder.Services.AddCors(options =>
 {
@@ -76,7 +83,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-//app.Services.CreateScope().ServiceProvider.GetRequiredService<EStoreSeeder>().Seed();
+//Seeder
+app.Services.CreateScope().ServiceProvider.GetRequiredService<EStoreSeeder>().Seed();
 
 
 // Configure the HTTP request pipeline.

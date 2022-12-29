@@ -17,7 +17,7 @@ namespace ElectronicsStore.API.Controllers
             _purchaseService = purchaseService;
         }
         [HttpPost]
-        public async Task<ActionResult<CartValueDto>> PostPurchase([FromBody] IEnumerable<PurchaseItemDto> purchase)
+        public async Task<ActionResult<OrderDto>> PostPurchase([FromBody] PurchaseDataDto<IEnumerable<PurchaseItemDto>> purchase)
         {
             var products = await _purchaseService.PostPurchaseAsync(purchase);
             

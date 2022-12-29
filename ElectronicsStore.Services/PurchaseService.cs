@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using ElectronicsStore.Abstractions.IRepositories;
 using ElectronicsStore.Abstractions.IServices;
 using ElectronicsStore.Entities;
@@ -19,20 +20,46 @@ namespace ElectronicsStore.Services
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public PurchaseService(IPurchaseRepository purchaseRepository, IMapper mapper, IProductRepository productRepository)
+        public PurchaseService(IPurchaseRepository purchaseRepository, IMapper mapper, IProductRepository productRepository, IAccountRepository accountRepository)
         {
             _purchaseRepository = purchaseRepository;
             _mapper = mapper;
             _productRepository = productRepository;
+            _accountRepository = accountRepository;
         }
-        public async Task<CartValueDto> PostPurchaseAsync(IEnumerable<PurchaseItemDto> purchaseDto)
+        public async Task<OrderDto> PostPurchaseAsync(PurchaseDataDto<IEnumerable<PurchaseItemDto>> purchaseDto)
         {
+            var purchaseListDto = purchaseDto.PurchaseList;
+            var sum = await GetValueOfPurchase(purchaseListDto);
+
+            foreach (var item in purchaseListDto)
+            {
+                var product = await _productRepository.GetProductByNameAsync(item.Name);
+                if(product.DataFromServer == null)
+                    throw new NotFoundException($"Item not found {item.Name}");
+
+                item.ProductId = product.DataFromServer.Id;
+            }
+            var purchaseList = _mapper.Map<IEnumerable<PurchaseItem>>(purchaseListDto);
+            
+            var response = await _purchaseRepository.PostPurchaseAsync(purchaseList, sum, purchaseDto.Email);
+
+            var resultDto = _mapper.Map<OrderDto>(response);
+            resultDto.UserName = purchaseDto.Email;
+
+            return resultDto;
+
+        }
+        public async Task<decimal> GetValueOfPurchase(IEnumerable<PurchaseItemDto> purchaseDto)
+        {
+           
             var purchaseItemsFromDatabase = new List<Product>();
             foreach (var item in purchaseDto)
             {
                 var itemMatch = await _productRepository.GetProductByNameAsync(item.Name);
-                if(itemMatch.DataFromServer == null)
+                if (itemMatch.DataFromServer == null)
                     throw new NotFoundException($"Item not found {item}");
 
                 purchaseItemsFromDatabase.Add(itemMatch.DataFromServer);
@@ -42,13 +69,13 @@ namespace ElectronicsStore.Services
             {
                 foreach (var itemFromPurchaseList in purchaseDto)
                 {
-                    if(itemFromDatabase.Name == itemFromPurchaseList.Name)
+                    if (itemFromDatabase.Name == itemFromPurchaseList.Name)
                     {
-                        sum =sum + itemFromDatabase.Price * itemFromPurchaseList.Count;
+                        sum = sum + itemFromDatabase.Price * itemFromPurchaseList.Count;
                     }
                 }
             }
-            return new CartValueDto() { Value = sum };
+            return sum;
         }
     }
 }

@@ -15,11 +15,11 @@ namespace ElectronicsStore.Entities
         public string Name { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        public int IdCategory { get; set; }
-        [ForeignKey("IdCategory")]
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
-        public int IdBrand { get; set; }
-        [ForeignKey("IdBrand")]
+        public int BrandId { get; set; }
+        [ForeignKey("BrandId")]
         public virtual Brand Brand { get; set; }
         public string ImgUrl { get; set; }
         public string Description { get; set; }

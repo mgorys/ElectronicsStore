@@ -7,6 +7,7 @@ import Shop from './ShopPage/Shop';
 import Checkout from './CheckoutPage/Checkout';
 import ProductDetails from './ProductDetails/ProductDetails';
 import Authorization from './AuthPage/Authorization';
+import PurchaseDetails from './PurchaseDetails';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/" element={<Home />}></Route>
           <Route path="shop/*" element={<Shop />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="purchase" element={<PurchaseDetails />} />
           <Route path="product/:name" element={<ProductDetails />} />
           <Route path="auth" element={<Authorization />} />
           <Route path="*" element={<NotFound />}></Route>

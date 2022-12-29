@@ -39,28 +39,31 @@ namespace ElectronicsStore.Services
         public async Task RegisterUserAsync(RegisterDto registerUser)
         {
             string password = registerUser.Password;
-            var newUser = new User();
-            newUser = _mapper.Map<User>(registerUser);
+            var newUser = _mapper.Map<User>(registerUser);
+            newUser.Role = "Client";
             var result = await _accountRepository.RegisterUserAsync(newUser,password);
             if (result == false)
                 throw new BadRequestException("Sorry, something went wrong");
         }
         public async Task<LoggedUserInfo> LoginUserAsync(LoginDto login)
         {
-            var user = new LoggedUserInfo();
-            var userName = await _accountRepository.FindUserAsync(login);
+            var userName = await _accountRepository.FindUserAsync(login.Email);
             if (userName.DataFromServer is null)
             {
                 throw new BadRequestException("Invalid username or password");
             }
             var token = await GenerateJwt(login);
-            user.UserName = userName.DataFromServer.Name;
+            var user = new LoggedUserInfo()
+            {
+                Email = userName.DataFromServer.Email,
+                UserName = userName.DataFromServer.Name,
+            };
             user.Token = token;
             return user;
         }
         public async Task<string> GenerateJwt(LoginDto login)
         {
-            var user = await _accountRepository.FindUserAsync(login);
+            var user = await _accountRepository.FindUserAsync(login.Email);
 
             if (user.DataFromServer is null)
             {
@@ -75,6 +78,7 @@ namespace ElectronicsStore.Services
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, $"{user.DataFromServer.Email}"),
+                new Claim(ClaimTypes.Role, $"{user.DataFromServer.Role}"),
 
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

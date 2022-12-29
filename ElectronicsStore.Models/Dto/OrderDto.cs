@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace ElectronicsStore.Models.Dto
 {
-    public class LoggedUserInfo
+    public class OrderDto
     {
-        public string Email { get; set; }
+        public int OrderNumber { get; set; }
+        public DateTime PutDate { get; set; }
+        public string Status { get; set; }
+        public decimal TotalWorth { get; set; }
         public string UserName { get; set; }
-        public string Token { get; set; }
     }
 }

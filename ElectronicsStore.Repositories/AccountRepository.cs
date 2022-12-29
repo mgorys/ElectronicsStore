@@ -30,6 +30,7 @@ namespace ElectronicsStore.Repositories
             {
                 Email = registerUser.Email,
                 Name = registerUser.Name,
+                Role = registerUser.Role,
             };
 
             if (registerUser == null)
@@ -45,10 +46,10 @@ namespace ElectronicsStore.Repositories
             }
             return true;
         }
-        public async Task<ServerResponse<User>> FindUserAsync(LoginDto loginUser)
+        public async Task<ServerResponse<User>> FindUserAsync(string loginUser)
         {
             var response = new ServerResponse<User>();
-            var result = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Email == loginUser.Email);
+            var result = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Email == loginUser);
             if (result == null)
             {
                 response.Success = false;
@@ -57,6 +58,19 @@ namespace ElectronicsStore.Repositories
             response.Success = true;
             response.DataFromServer = result;
             return response;
+        }
+        public void RegisterAdmin(RegisterDto registerUser)
+        {
+            var newUser = new User()
+            {
+                Email = registerUser.Email,
+                Name = registerUser.Name,
+                Role = registerUser.Role,
+            };
+            var hashedPassword = _passwordHasher.HashPassword(newUser, registerUser.Password);
+            newUser.PasswordHash = hashedPassword;
+            _dbContext.Users.Add(newUser);
+            _dbContext.SaveChanges();
         }
     }
 }
