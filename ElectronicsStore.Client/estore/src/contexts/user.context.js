@@ -6,18 +6,15 @@ export const UserContext = createContext({
   currentUser: null,
   changeCurrentUser: (e) => {},
   signOutUserFromContext: () => {},
-  token: null,
 });
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useLocalStorage('currentUser', []);
-  const [token, setToken] = useState(null);
 
   const signOutUserFromContext = () => {
     setCurrentUser(null);
   };
   const changeCurrentUser = (e) => {
     setCurrentUser(e);
-    setToken(e.token);
   };
   useEffect(() => {
     //react save to cookies
@@ -28,7 +25,6 @@ export const UserProvider = ({ children }) => {
     setCurrentUser,
     changeCurrentUser,
     signOutUserFromContext,
-    token,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

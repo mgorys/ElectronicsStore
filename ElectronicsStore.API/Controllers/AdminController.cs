@@ -1,4 +1,6 @@
 ﻿using ElectronicsStore.Abstractions.IServices;
+using ElectronicsStore.Entities;
+using ElectronicsStore.Models;
 using ElectronicsStore.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +22,16 @@ namespace ElectronicsStore.API.Controllers
         [HttpGet("order")]
         public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync()
         {
-            var products = await _orderService.GetOrdersAsync();
+            var orders = await _orderService.GetOrdersAsync();
 
-            return Ok(products);
+            return Ok(orders);
+        }
+        [HttpGet("order/{number}")]
+        public async Task<ActionResult<ServerResponseOrderAndItems<IEnumerable<PurchaseItemDto>>>> GetOrderByNumberAsync(int number)
+        {
+            var order = await _orderService.GetOrderByNumberAsync(number);
+
+            return Ok(order);
         }
     }
 }

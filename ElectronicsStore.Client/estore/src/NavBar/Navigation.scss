@@ -4,7 +4,12 @@
   margin: 5px;
   .nav-button-container {
     display: grid;
-    grid-template-columns: 170px 170px 170px;
+    grid-template-columns: 170px 170px 170px 30px;
+    .nav-button-key {
+      margin: auto;
+      text-decoration: none;
+      color: black;
+    }
   }
   .nav-container-right {
     margin: 0px;

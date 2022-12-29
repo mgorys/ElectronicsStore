@@ -22,6 +22,8 @@ namespace ElectronicsStore.Infrastructure.Mapping
             CreateMap<Category, CategoryDto>();
             CreateMap<RegisterDto, User>();
             CreateMap<PurchaseItemDto, PurchaseItem>();
+            CreateMap<PurchaseItem, PurchaseItemDto>()
+                .ForMember(m=>m.Name, n=>n.MapFrom(b=>b.Product.Name));
             CreateMap<Order, OrderDto>()
                 .ForMember(m=>m.UserName , n=>n.MapFrom(b=>b.User.Email));
         }

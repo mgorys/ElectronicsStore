@@ -84,8 +84,8 @@ export const CartProvider = ({ children }) => {
   const clearCartItems = () => {
     setCartItems([]);
   };
-  const postPurchaseOrder = async (e, f) => {
-    let order = await postPurchase(e, f);
+  const postPurchaseOrder = async (e, f, g) => {
+    let order = await postPurchase(e, f, g);
     console.log(order);
     setOrderDetails(order);
     return order;

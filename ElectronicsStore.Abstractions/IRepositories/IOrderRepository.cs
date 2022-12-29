@@ -11,5 +11,6 @@ namespace ElectronicsStore.Abstractions.IRepositories
     public interface IOrderRepository
     {
         Task<ServerResponse<IEnumerable<Order>>> GetOrdersAsync();
+        Task<ServerResponseOrderAndItems<IEnumerable<PurchaseItem>>> GetOrderByNumberAsync(int number);
     }
 }

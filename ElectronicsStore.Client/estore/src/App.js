@@ -7,9 +7,15 @@ import Shop from './ShopPage/Shop';
 import Checkout from './CheckoutPage/Checkout';
 import ProductDetails from './ProductDetails/ProductDetails';
 import Authorization from './AuthPage/Authorization';
-import PurchaseDetails from './PurchaseDetails';
+import PurchaseDetails from './CheckoutPage/PurchaseDetails';
+import AdminPage from './AdminPage/AdminPage';
+import { useContext } from 'react';
+import { UserContext } from './contexts/user.context';
+import OrderDetails from './AdminPage/OrderDetails';
 
 function App() {
+  const { currentUser } = useContext(UserContext);
+
   return (
     <>
       <Router>
@@ -20,6 +26,12 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="purchase" element={<PurchaseDetails />} />
           <Route path="product/:name" element={<ProductDetails />} />
+          {currentUser && currentUser.userName === 'Admin' && (
+            <>
+              <Route path="admin" element={<AdminPage />} />
+              <Route path="admin/:orderNumber" element={<OrderDetails />} />
+            </>
+          )}
           <Route path="auth" element={<Authorization />} />
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

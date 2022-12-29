@@ -12,10 +12,14 @@ import toastr from 'reactjs-toastr/lib/react-toast';
 const Checkout = () => {
   const { cartItems, cartTotal, clearCartItems, postPurchaseOrder } =
     useContext(CartContext);
-  const { currentUser, token } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [purchaseFinished, setPurchaseFinished] = useState(false);
   const handleSubmitPurchase = async () => {
-    let orderDetails = await postPurchaseOrder(cartItems, token);
+    let orderDetails = await postPurchaseOrder(
+      cartItems,
+      currentUser.token,
+      currentUser.email
+    );
     if (orderDetails !== undefined && orderDetails !== null) {
       alert('Purchase completed');
       clearCartItems();
@@ -46,9 +50,6 @@ const Checkout = () => {
       </div>
       <div className="checkout-summary">
         <h3 className="total">Total: {cartTotal.toFixed(2)}PLN</h3>
-        <Button buttonType="classic" onClick={handleSubmitPurchase}>
-          Purchase
-        </Button>
         {currentUser ? (
           <Button buttonType="classic" onClick={handleSubmitPurchase}>
             Purchase

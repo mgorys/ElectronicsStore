@@ -5,6 +5,7 @@ import Button from '../button.component';
 import './Navigation.scss';
 import AuthButton from './AuthButton';
 import UserTag from './UserTag';
+import { FaKey } from 'react-icons/fa';
 
 const Navigation = () => {
   return (
@@ -19,6 +20,9 @@ const Navigation = () => {
           </Link>
           <Link className="nav-link" to="/checkout">
             <Button buttonType="classic">CHECKOUT</Button>
+          </Link>
+          <Link className="nav-button-key" to="/admin">
+            <FaKey />
           </Link>
         </div>
         <div className="nav-container-right">

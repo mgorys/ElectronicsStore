@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ElectronicsStore.Entities;
 
 namespace ElectronicsStore.Abstractions.IServices
 {
     public interface IOrderService
     {
         Task<ServerResponse<IEnumerable<OrderDto>>> GetOrdersAsync();
+        Task<ServerResponseOrderAndItems<IEnumerable<PurchaseItemDto>>> GetOrderByNumberAsync(int number);
     }
 }
