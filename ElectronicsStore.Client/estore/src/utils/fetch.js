@@ -25,10 +25,13 @@ export async function get(endpoint, paramsObj, page) {
 
 export async function getAdmin(endpoint, paramsObj, page, token) {
   let wholeUrl;
+
   if (paramsObj !== '' && page !== undefined) {
     wholeUrl = url + endpoint + '/' + paramsObj + '?page=' + page;
   } else if (paramsObj !== '' && page === undefined) {
     wholeUrl = url + endpoint + '/' + paramsObj;
+  } else if (paramsObj === '' && page !== undefined) {
+    wholeUrl = url + endpoint + '?page=' + page;
   } else {
     wholeUrl = url + endpoint;
   }

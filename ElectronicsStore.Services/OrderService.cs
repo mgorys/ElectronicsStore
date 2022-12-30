@@ -27,14 +27,21 @@ namespace ElectronicsStore.Services
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
-        public async Task<ServerResponse<IEnumerable<OrderDto>>> GetOrdersAsync()
+        public async Task<ServerResponse<IEnumerable<OrderDto>>> GetOrdersAsync(int? page)
         {
+            int pageSize = 10;
+            if (page == null) page = 1;
+            if (page < 1)
+                throw new NotFoundException("Sorry, entities have been not found");
             var resultDto = new ServerResponse<IEnumerable<OrderDto>>();
-            var result = await _orderRepository.GetOrdersAsync();
+            var result = await _orderRepository.GetOrdersAsync(page, pageSize);
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<OrderDto>>(result.DataFromServer);
             resultDto.Success = result.Success;
+            int resultCount = await _orderRepository.GetOrdersCount();
+            double count = (double)resultCount / (double)pageSize;
+            resultDto.PagesCount = (int)Math.Ceiling(count);
             return resultDto;
         }
         public async Task<ServerResponseOrderAndItems<IEnumerable<PurchaseItemDto>>> GetOrderByNumberAsync(int number)

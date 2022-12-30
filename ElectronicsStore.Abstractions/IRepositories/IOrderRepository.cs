@@ -10,7 +10,8 @@ namespace ElectronicsStore.Abstractions.IRepositories
 {
     public interface IOrderRepository
     {
-        Task<ServerResponse<IEnumerable<Order>>> GetOrdersAsync();
+        Task<ServerResponse<IEnumerable<Order>>> GetOrdersAsync(int? page, int pageSize);
         Task<ServerResponseOrderAndItems<IEnumerable<PurchaseItem>>> GetOrderByNumberAsync(int number);
+        Task<int> GetOrdersCount();
     }
 }

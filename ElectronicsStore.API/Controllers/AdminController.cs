@@ -20,9 +20,9 @@ namespace ElectronicsStore.API.Controllers
             _orderService = orderService;
         }
         [HttpGet("order")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync()
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync([FromQuery] int page)
         {
-            var orders = await _orderService.GetOrdersAsync();
+            var orders = await _orderService.GetOrdersAsync(page);
 
             return Ok(orders);
         }

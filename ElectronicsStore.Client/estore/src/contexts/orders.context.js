@@ -8,6 +8,7 @@ export const OrdersContext = createContext({
   hasItems: false,
   getOrderAdmin: () => {},
   orderItem: {},
+  getOrdersAdminWithPage: () => {},
 });
 export const OrdersProvider = ({ children }) => {
   const [ordersList, setOrdersList] = useState([]);
@@ -32,6 +33,20 @@ export const OrdersProvider = ({ children }) => {
     getOrders();
   }, []);
 
+  async function getOrdersAdminWithPage(f) {
+    let page = f;
+    if (currentUser !== null) {
+      const orders = await getAdmin(
+        endpoint,
+        paramsObj,
+        page,
+        currentUser.token
+      );
+      setHasItems(true);
+      setOrdersList(orders);
+    }
+  }
+
   async function getOrderAdmin(e) {
     paramsObj = e;
     const fetchedData = await getAdmin(
@@ -42,6 +57,7 @@ export const OrdersProvider = ({ children }) => {
     );
     setOrderItem(fetchedData);
     setHasItems(true);
+    return fetchedData;
   }
 
   async function searchProducts(e) {
@@ -61,6 +77,7 @@ export const OrdersProvider = ({ children }) => {
     searchProductsWithpage,
     getOrderAdmin,
     orderItem,
+    getOrdersAdminWithPage,
   };
   return (
     <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>

@@ -19,11 +19,13 @@ namespace ElectronicsStore.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<ServerResponse<IEnumerable<Order>>> GetOrdersAsync()
+        public async Task<ServerResponse<IEnumerable<Order>>> GetOrdersAsync(int? page, int pageSize)
         {
             var response = new ServerResponse<IEnumerable<Order>>();
             var result = await _dbContext.Orders
                 .Include(x=>x.User)
+                .Skip(pageSize * ((int)(page == null ? 1 : page) - 1))
+                .Take(pageSize)
                 .ToListAsync();
 
             if (result == null)
@@ -65,6 +67,11 @@ namespace ElectronicsStore.Repositories
             response.PurchasedItemList = purchasedItems;
 
             return response;
+        }
+        public async Task<int> GetOrdersCount()
+        {
+            var resultCount = await _dbContext.Orders.CountAsync();
+            return resultCount;
         }
     }
 }

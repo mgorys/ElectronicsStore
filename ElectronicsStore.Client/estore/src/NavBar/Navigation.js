@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import Button from '../button.component';
@@ -6,8 +6,10 @@ import './Navigation.scss';
 import AuthButton from './AuthButton';
 import UserTag from './UserTag';
 import { FaKey } from 'react-icons/fa';
+import { UserContext } from '../contexts/user.context';
 
 const Navigation = () => {
+  const { currentUser } = useContext(UserContext);
   return (
     <>
       <div className="nav-container">
@@ -21,9 +23,11 @@ const Navigation = () => {
           <Link className="nav-link" to="/checkout">
             <Button buttonType="classic">CHECKOUT</Button>
           </Link>
-          <Link className="nav-button-key" to="/admin">
-            <FaKey />
-          </Link>
+          {currentUser && currentUser.userName === 'Admin' && (
+            <Link className="nav-button-key" to="/admin">
+              <FaKey />
+            </Link>
+          )}
         </div>
         <div className="nav-container-right">
           <UserTag />

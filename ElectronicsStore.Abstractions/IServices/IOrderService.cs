@@ -11,7 +11,7 @@ namespace ElectronicsStore.Abstractions.IServices
 {
     public interface IOrderService
     {
-        Task<ServerResponse<IEnumerable<OrderDto>>> GetOrdersAsync();
+        Task<ServerResponse<IEnumerable<OrderDto>>> GetOrdersAsync(int? page);
         Task<ServerResponseOrderAndItems<IEnumerable<PurchaseItemDto>>> GetOrderByNumberAsync(int number);
     }
 }
