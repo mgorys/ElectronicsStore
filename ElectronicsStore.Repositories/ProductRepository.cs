@@ -21,9 +21,9 @@ namespace ElectronicsStore.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<ServerResponse<Product>> GetProductByNameAsync(string name)
+        public async Task<ServerResponseSuccess<Product>> GetProductByNameAsync(string name)
         {
-            var response = new ServerResponse<Product>();
+            var response = new ServerResponseSuccess<Product>();
             var result = await _dbContext.Products
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
@@ -42,9 +42,9 @@ namespace ElectronicsStore.Repositories
             return response;
         }
 
-        public async Task<ServerResponse<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page ,int pageSize)
+        public async Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page ,int pageSize)
         {
-            var response = new ServerResponse<IEnumerable<Product>>();
+            var response = new ServerResponseSuccess<IEnumerable<Product>>();
             var result = await _dbContext.Products
                 .Include(x=>x.Category)
                 .Include(x=>x.Brand)
@@ -65,9 +65,9 @@ namespace ElectronicsStore.Repositories
             response.DataFromServer = result;
             return response;
         }
-        public async Task<ServerResponse<IEnumerable<Product>>> GetProductsBySearchAsync(string search, int? page, int pageSize)
+        public async Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsBySearchAsync(string search, int? page, int pageSize)
         {
-            var response = new ServerResponse<IEnumerable<Product>>();
+            var response = new ServerResponseSuccess<IEnumerable<Product>>();
             var result = await _dbContext.Products
                 .Include(x => x.Category)
                 .Include(x => x.Brand)

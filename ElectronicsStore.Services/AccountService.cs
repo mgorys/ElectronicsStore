@@ -53,12 +53,12 @@ namespace ElectronicsStore.Services
                 throw new BadRequestException("Invalid username or password");
             }
             var token = await GenerateJwt(login);
-            var user = new LoggedUserInfo()
+            var user = new LoggedUserInfo
             {
                 Email = userName.DataFromServer.Email,
                 UserName = userName.DataFromServer.Name,
+                Token = token
             };
-            user.Token = token;
             return user;
         }
         public async Task<string> GenerateJwt(LoginDto login)

@@ -5,7 +5,6 @@ import { useState } from 'react';
 import FormInput from './FormInput';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/user.context';
-import toastr from 'reactjs-toastr/lib/react-toast';
 
 const defaultFormFields = {
   email: '',
@@ -13,7 +12,7 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
-  const { currentUser, changeCurrentUser } = useContext(UserContext);
+  const { changeCurrentUser } = useContext(UserContext);
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 

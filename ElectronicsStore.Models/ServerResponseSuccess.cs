@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicsStore.Models
 {
-    public class ServerResponse<T>
+    public class ServerResponseSuccess<T>
     {
         public T? DataFromServer { get; set; }
         public bool Success { get; set; } = false;

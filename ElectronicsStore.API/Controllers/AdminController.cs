@@ -5,6 +5,7 @@ using ElectronicsStore.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Net.NetworkInformation;
 
 namespace ElectronicsStore.API.Controllers
 {
@@ -19,17 +20,26 @@ namespace ElectronicsStore.API.Controllers
         {
             _orderService = orderService;
         }
-        [HttpGet("order")]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync([FromQuery] int page)
+        
+        [HttpGet("order/{number}")]
+        public async Task<ActionResult<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>>> GetOrderByNumberAsync(int number)
         {
-            var orders = await _orderService.GetOrdersAsync(page);
+            var order = await _orderService.GetOrderByNumberAsync(number);
+
+            return Ok(order);
+        }
+        [HttpGet("order")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync([FromQuery] Query query)
+        {
+            var orders = await _orderService.GetOrdersAsync(query);
 
             return Ok(orders);
         }
-        [HttpGet("order/{number}")]
-        public async Task<ActionResult<ServerResponseOrderAndItems<IEnumerable<PurchaseItemDto>>>> GetOrderByNumberAsync(int number)
+        [HttpPost("order/status")]
+        public async Task<ActionResult<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>>> 
+            ChangeOrderStatusByNumberAsync([FromBody] ChangeStatusByNumberDto data)
         {
-            var order = await _orderService.GetOrderByNumberAsync(number);
+            var order = await _orderService.ChangeOrderStatusByNumberAsync(data);
 
             return Ok(order);
         }

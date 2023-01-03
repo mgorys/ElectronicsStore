@@ -61,6 +61,8 @@ Service is responsible for operations on data and passing them between repositor
 - Fluent Validation
 - AutoMapper
 - ErrorHandlingMiddleware
+- JWT Bearer Authentication
+- PasswordHasher
 
 # Client
 

@@ -46,9 +46,9 @@ namespace ElectronicsStore.Repositories
             }
             return true;
         }
-        public async Task<ServerResponse<User>> FindUserAsync(string loginUser)
+        public async Task<ServerResponseSuccess<User>> FindUserAsync(string loginUser)
         {
-            var response = new ServerResponse<User>();
+            var response = new ServerResponseSuccess<User>();
             var result = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Email == loginUser);
             if (result == null)
             {

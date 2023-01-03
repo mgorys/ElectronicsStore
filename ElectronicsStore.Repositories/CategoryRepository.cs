@@ -19,9 +19,9 @@ namespace ElectronicsStore.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<ServerResponse<IEnumerable<Category>>> GetCategoriesAsync()
+        public async Task<ServerResponseSuccess<IEnumerable<Category>>> GetCategoriesAsync()
         {
-            var response = new ServerResponse<IEnumerable<Category>>();
+            var response = new ServerResponseSuccess<IEnumerable<Category>>();
             var result = await _dbContext.Categories
                 .ToListAsync();
 

@@ -22,9 +22,17 @@
       text-align: right;
       margin-right: 5px;
     }
-    .checkoutitem-quantity {
-      text-align: center;
-      margin-right: 5px;
+    .checkoutitem-quantity-container {
+      display: flex;
+      margin: auto;
+      .checkoutitem-quantity {
+        text-align: center;
+        margin-right: 15px;
+        margin-left: 15px;
+      }
+      .checkoutitem-quantity-mark {
+        cursor: pointer;
+      }
     }
 
     .checkoutitem-name {

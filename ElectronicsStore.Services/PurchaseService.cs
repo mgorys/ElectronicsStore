@@ -20,18 +20,20 @@ namespace ElectronicsStore.Services
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
-        private readonly IAccountRepository _accountRepository;
 
         public PurchaseService(IPurchaseRepository purchaseRepository, IMapper mapper, IProductRepository productRepository, IAccountRepository accountRepository)
         {
             _purchaseRepository = purchaseRepository;
             _mapper = mapper;
             _productRepository = productRepository;
-            _accountRepository = accountRepository;
         }
         public async Task<OrderDto> PostPurchaseAsync(PurchaseDataDto<IEnumerable<PurchaseItemDto>> purchaseDto)
         {
+            if (purchaseDto.Email == null)
+                throw new BadRequestException("Order should contain email information");
             var purchaseListDto = purchaseDto.PurchaseList;
+            if (purchaseListDto == null || purchaseListDto.Count() == 0)
+                throw new BadRequestException("Order should contain purchase items");
             var sum = await GetValueOfPurchase(purchaseListDto);
 
             foreach (var item in purchaseListDto)
@@ -43,18 +45,14 @@ namespace ElectronicsStore.Services
                 item.ProductId = product.DataFromServer.Id;
             }
             var purchaseList = _mapper.Map<IEnumerable<PurchaseItem>>(purchaseListDto);
-            
             var response = await _purchaseRepository.PostPurchaseAsync(purchaseList, sum, purchaseDto.Email);
-
-            var resultDto = _mapper.Map<OrderDto>(response);
+            var resultDto = _mapper.Map<OrderDto>(response.DataFromServer);
             resultDto.UserName = purchaseDto.Email;
-
             return resultDto;
 
         }
         public async Task<decimal> GetValueOfPurchase(IEnumerable<PurchaseItemDto> purchaseDto)
         {
-           
             var purchaseItemsFromDatabase = new List<Product>();
             foreach (var item in purchaseDto)
             {
@@ -71,7 +69,7 @@ namespace ElectronicsStore.Services
                 {
                     if (itemFromDatabase.Name == itemFromPurchaseList.Name)
                     {
-                        sum = sum + itemFromDatabase.Price * itemFromPurchaseList.Count;
+                        sum += itemFromDatabase.Price * itemFromPurchaseList.Count;
                     }
                 }
             }

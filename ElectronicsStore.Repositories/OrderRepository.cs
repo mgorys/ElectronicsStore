@@ -1,10 +1,12 @@
 ﻿using ElectronicsStore.Abstractions.IRepositories;
 using ElectronicsStore.Entities;
 using ElectronicsStore.Models;
+using ElectronicsStore.Models.Dto;
 using ElectronicsStore.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +21,16 @@ namespace ElectronicsStore.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<ServerResponse<IEnumerable<Order>>> GetOrdersAsync(int? page, int pageSize)
+        
+        public async Task<ServerResponseSuccess<IEnumerable<Order>>> GetOrdersAsync(Query query, int pageSize)
         {
-            var response = new ServerResponse<IEnumerable<Order>>();
+            var response = new ServerResponseSuccess<IEnumerable<Order>>();
             var result = await _dbContext.Orders
-                .Include(x=>x.User)
-                .Skip(pageSize * ((int)(page == null ? 1 : page) - 1))
+                .Include(x => x.User)
+                .Where(x => query.Search == null || (x.User.Email.ToLower().Contains(query.Search.ToLower()))
+                || x.OrderNumber.ToString().Contains(query.Search))
+                .Where(x => query.Status == null ? x.Status != OrderStatus.Archived : x.Status == query.Status)
+                .Skip(pageSize * ((int)(query.Page == null ? 1 : query.Page) - 1))
                 .Take(pageSize)
                 .ToListAsync();
 
@@ -40,9 +46,21 @@ namespace ElectronicsStore.Repositories
             response.DataFromServer = result;
             return response;
         }
-        public async Task<ServerResponseOrderAndItems<IEnumerable<PurchaseItem>>> GetOrderByNumberAsync(int number)
+        public async Task<bool> ChangeOrderStatusByNumberAsync(int number, OrderStatus status)
         {
-            var response = new ServerResponseOrderAndItems<IEnumerable<PurchaseItem>>();
+            var result = await _dbContext.Orders
+                .FirstOrDefaultAsync(x => x.OrderNumber == number);
+
+            if (result == null)
+                return false;
+
+            result.Status = status;
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<ServerResponseOrder<IEnumerable<PurchaseItem>>> GetOrderByNumberAsync(int number)
+        {
+            var response = new ServerResponseOrder<IEnumerable<PurchaseItem>>();
             var result = await _dbContext.Orders
                 .Include(x => x.User)
                 .FirstOrDefaultAsync(x => x.OrderNumber == number);
@@ -57,7 +75,7 @@ namespace ElectronicsStore.Repositories
                 response.Success = true;
             }
             var purchasedItems = await _dbContext.PurchaseItems.Where(x => x.OrderId == result.Id)
-                .Include(x=>x.Product)
+                .Include(x => x.Product)
                 .ToListAsync();
             response.UserName = result.User.Email;
             response.TotalWorth = result.TotalWorth;
@@ -68,10 +86,24 @@ namespace ElectronicsStore.Repositories
 
             return response;
         }
-        public async Task<int> GetOrdersCount()
+
+        public async Task<int> GetOrdersCount(Query query)
         {
-            var resultCount = await _dbContext.Orders.CountAsync();
+            //.Where(x => search != null ? x.User.Email.ToLower().Contains(search.ToLower()) || x.OrderNumber.ToString().Contains(search) : ?break?)
+            if (query.Search != null)
+            {
+                var resultCountSearch = await _dbContext.Orders
+                    .Where(x => x.User.Email.ToLower().Contains(query.Search.ToLower())
+                        || x.OrderNumber.ToString().Contains(query.Search))
+                    .Where(x => query.Status == null ? x.Status != OrderStatus.Archived : x.Status == query.Status)
+                    .CountAsync();
+                return resultCountSearch;
+            }
+            var resultCount = await _dbContext.Orders
+                .Where(x => query.Status == null ? x.Status != OrderStatus.Archived : x.Status == query.Status)
+                .CountAsync();
             return resultCount;
         }
+
     }
 }

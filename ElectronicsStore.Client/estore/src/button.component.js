@@ -4,6 +4,7 @@ const BUTTON_TYPE_CLASSES = {
   invertedpagination: 'inverted-pagination',
   classic: 'classic',
   inverted: 'inverted',
+  invertedgotopagination: 'invertedgotopagination',
 };
 const Button = ({ children, buttonType, ...otherProps }) => {
   return (

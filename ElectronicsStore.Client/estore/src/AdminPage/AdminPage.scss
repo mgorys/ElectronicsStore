@@ -1,0 +1,27 @@
+.adminpage-header-container {
+  margin-left: 50px;
+  margin-right: 50px;
+  display: flex;
+  justify-content: space-between;
+
+  .searchField-admin {
+    display: flex;
+    text-align: right;
+    margin-top: auto;
+    margin-bottom: auto;
+    .search-input {
+      text-align: right;
+      background: none;
+      background-color: white;
+      font-size: 18px;
+      display: block;
+      height: 50px;
+      width: 100%;
+    }
+  }
+  .adminpage-header-status {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+  }
+}

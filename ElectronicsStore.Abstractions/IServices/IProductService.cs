@@ -10,8 +10,8 @@ namespace ElectronicsStore.Abstractions.IServices
 {
     public interface IProductService
     {
-        Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, int? page);
-        Task<ServerResponse<IEnumerable<ProductDto>>> GetProductsBySearchAsync(string search, int? page);
-        Task<ServerResponse<ProductDto>> GetProductByNameAsync(string name);
+        Task<ServerResponseSuccess<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, int? page);
+        Task<ServerResponseSuccess<IEnumerable<ProductDto>>> GetProductsBySearchAsync(string search, int? page);
+        Task<ServerResponseSuccess<ProductDto>> GetProductByNameAsync(string name);
     }
 }

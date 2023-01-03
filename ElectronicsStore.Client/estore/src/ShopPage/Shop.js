@@ -1,34 +1,33 @@
 import React from 'react';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { CategoriesContext } from '../contexts/categories.context';
-import { ProductsContext } from '../contexts/products.context';
 import ProductItem from './ProductItem';
 import Categories from './Categories';
 import Pagination from './Pagination';
+import './Shop.scss';
 
 const Shop = () => {
   const {
-    categoriesMap,
+    categories,
     hasItems,
     changedProducts,
     choosenCategory,
     searchProces,
+    getCategories,
   } = useContext(CategoriesContext);
-  const { products } = useContext(ProductsContext);
-  const [productsList, setProductsList] = useState();
-  const [categories, setCategories] = useState(categoriesMap);
   const { dataFromServer } = changedProducts;
 
-  useEffect(() => {
-    setCategories(categoriesMap);
-  }, [categoriesMap]);
+  const { changeCategory } = useContext(CategoriesContext);
+  const changeCategoryHandler = (e) => {
+    changeCategory(e);
+  };
 
   useEffect(() => {
-    setProductsList(changedProducts);
-    if (changedProducts === undefined) {
-      setProductsList(products);
+    async function fetchData() {
+      await getCategories();
     }
-  }, [changedProducts]);
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -41,7 +40,32 @@ const Shop = () => {
             <ProductItem product={product} key={product.id} />
           ))
         ) : (
-          <div>Choose category to see items</div>
+          <div className="category-images-container">
+            <div
+              className="category-background-phones"
+              value="Phones"
+              onClick={(e) => changeCategoryHandler(e.target.innerText)}>
+              <div className="category-transbox">
+                <h1 className="category-title">Phones</h1>
+              </div>
+            </div>
+            <div
+              className="category-background-devices"
+              value="Devices"
+              onClick={(e) => changeCategoryHandler(e.target.innerText)}>
+              <div className="category-transbox">
+                <h1 className="category-title">Devices</h1>
+              </div>
+            </div>
+            <div
+              className="category-background-accessories"
+              value="Accessories"
+              onClick={(e) => changeCategoryHandler(e.target.innerText)}>
+              <div className="category-transbox">
+                <h1 className="category-title">Accessories</h1>
+              </div>
+            </div>
+          </div>
         )}
         {hasItems && Array.isArray(dataFromServer) && (
           <Pagination

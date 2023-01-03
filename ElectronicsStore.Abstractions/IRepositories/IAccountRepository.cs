@@ -12,7 +12,7 @@ namespace ElectronicsStore.Abstractions.IRepositories
     public interface IAccountRepository
     {
         Task<bool> RegisterUserAsync(User registerUser, string password);
-        Task<ServerResponse<User>> FindUserAsync(string loginUser);
+        Task<ServerResponseSuccess<User>> FindUserAsync(string loginUser);
         void RegisterAdmin(RegisterDto admin);
     }
 }

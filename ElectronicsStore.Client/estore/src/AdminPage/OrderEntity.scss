@@ -1,4 +1,17 @@
-.orderitem {
+.orderitem-container {
   text-decoration: none;
   color: black;
+  display: flex;
+  gap: 50px;
+  max-width: 600px;
+  .orderitem-number-container {
+    display: flex;
+    margin-left: 50px;
+    width: 225px;
+    text-align: right;
+    justify-content: space-between;
+  }
+}
+.orderitem-container:hover {
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
 }

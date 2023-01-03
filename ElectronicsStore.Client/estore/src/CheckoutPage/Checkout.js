@@ -4,10 +4,8 @@ import React from 'react';
 import CheckoutItem from './CheckoutItem';
 import { UserContext } from '../contexts/user.context';
 import Button from '../button.component';
-import { Link, Navigate, redirect } from 'react-router-dom';
-import { postPurchase } from '../utils/fetch';
+import { Link, Navigate } from 'react-router-dom';
 import './Checkout.scss';
-import toastr from 'reactjs-toastr/lib/react-toast';
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCartItems, postPurchaseOrder } =
@@ -15,15 +13,20 @@ const Checkout = () => {
   const { currentUser } = useContext(UserContext);
   const [purchaseFinished, setPurchaseFinished] = useState(false);
   const handleSubmitPurchase = async () => {
-    let orderDetails = await postPurchaseOrder(
-      cartItems,
-      currentUser.token,
-      currentUser.email
-    );
-    if (orderDetails !== undefined && orderDetails !== null) {
-      alert('Purchase completed');
-      clearCartItems();
-      setPurchaseFinished(true);
+    if (cartItems.length === 0) {
+      alert('Cart cannot be empty');
+      return false;
+    } else {
+      let orderDetails = await postPurchaseOrder(
+        cartItems,
+        currentUser.token,
+        currentUser.email
+      );
+      if (orderDetails !== undefined && orderDetails !== null) {
+        alert('Purchase completed');
+        clearCartItems();
+        setPurchaseFinished(true);
+      }
     }
   };
 

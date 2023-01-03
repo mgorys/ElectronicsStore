@@ -10,6 +10,6 @@ namespace ElectronicsStore.Abstractions.IRepositories
 {
     public interface ICategoryRepository
     {
-        Task<ServerResponse<IEnumerable<Category>>> GetCategoriesAsync();
+        Task<ServerResponseSuccess<IEnumerable<Category>>> GetCategoriesAsync();
     }
 }

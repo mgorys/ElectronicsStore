@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicsStore.Models.Dto
+namespace ElectronicsStore.Models
 {
-    public class OrderDto
+    public class ServerResponseOrderDateString<T>
     {
+        public T? PurchasedItemList { get; set; }
+        public bool Success { get; set; } = false;
         public int OrderNumber { get; set; }
         public string PutDate { get; set; }
         public OrderStatus Status { get; set; }

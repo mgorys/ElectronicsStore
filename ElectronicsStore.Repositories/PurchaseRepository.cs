@@ -20,43 +20,55 @@ namespace ElectronicsStore.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<ServerResponse<List<Product>>> GetListOfProductsAsync(IEnumerable<Product> purchase)
+        //Do i use that?
+
+        //public async Task<ServerResponse<List<Product>>> GetListOfProductsAsync(IEnumerable<Product> purchase)
+        //{
+        //    var resultList = new ServerResponse<List<Product>>();
+        //    List<Product> list = new();
+        //    foreach(var item in purchase)
+        //    {
+        //        var itemToAdd =  await _dbContext.Products.FirstOrDefaultAsync(x=>x.Name == item.Name);
+        //        if(itemToAdd == null)
+        //        {
+        //            resultList.Success = false;
+        //            return resultList;
+        //        }
+        //        list.Add(itemToAdd);
+
+        //    }
+        //    resultList.DataFromServer = list;
+        //    resultList.Success = true;
+        //    return resultList;
+        //}
+        public async Task<ServerResponseSuccess<Order>> PostPurchaseAsync(IEnumerable<PurchaseItem> purchase, decimal sum, string purchaseOwner)
         {
-            var resultList = new ServerResponse<List<Product>>();
-            foreach(var item in purchase)
-            {
-                var itemToAdd =  await _dbContext.Products.FirstOrDefaultAsync(x=>x.Name == item.Name);
-                if(itemToAdd == null)
-                {
-                    resultList.Success = false;
-                    return resultList;
-                }
-                resultList.DataFromServer.Add(itemToAdd);
-            }
-            return resultList;
-        }
-        public async Task<Order> PostPurchaseAsync(IEnumerable<PurchaseItem> purchase, decimal sum, string purchaseOwner)
-        {
-            string id = DateTime.Now.Month.ToString() + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second;
+            var response = new ServerResponseSuccess<Order>();
             var userid = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Email == purchaseOwner);
+            if (userid == null)
+            {
+                response.Success = false;
+                return response;
+            }
+            string id = DateTime.Now.Month.ToString() + DateTime.Now.Day + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second;
             var order = new Order()
             {
                 OrderNumber = Int32.Parse(id),
                 PutDate = DateTime.Now,
-                Status = "Created",
+                Status = OrderStatus.Created,
                 TotalWorth = sum,
                 UserId = userid.Id
             };
             await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
-            var orderFromDB = await _dbContext.Orders.FirstOrDefaultAsync(x => x.OrderNumber == Int32.Parse(id));
             foreach (var item in purchase)
             {
                 item.OrderId = order.Id;
                 await _dbContext.PurchaseItems.AddAsync(item);
             };
             await _dbContext.SaveChangesAsync();
-            return order;
+            response.DataFromServer = order;
+            return response;
         }
     }
 }

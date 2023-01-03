@@ -11,6 +11,6 @@ namespace ElectronicsStore.Abstractions.IServices
 {
     public interface ICategoryService
     {
-        Task<ServerResponse<IEnumerable<CategoryDto>>> GetCategoriesAsync();
+        Task<ServerResponseSuccess<IEnumerable<CategoryDto>>> GetCategoriesAsync();
     }
 }

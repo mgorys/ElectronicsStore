@@ -1,9 +1,10 @@
 const url = 'https://localhost:7202/api/';
+
 export async function get(endpoint, paramsObj, page) {
   let wholeUrl;
-  if (paramsObj !== '' && page !== undefined) {
+  if (paramsObj !== undefined && page !== undefined) {
     wholeUrl = url + endpoint + '/' + paramsObj + '?page=' + page;
-  } else if (paramsObj !== '' && page === undefined) {
+  } else if (paramsObj !== undefined && page === undefined) {
     wholeUrl = url + endpoint + '/' + paramsObj;
   } else {
     wholeUrl = url + endpoint;
@@ -23,24 +24,52 @@ export async function get(endpoint, paramsObj, page) {
   return result;
 }
 
-export async function getAdmin(endpoint, paramsObj, page, token) {
-  let wholeUrl;
-
-  if (paramsObj !== '' && page !== undefined) {
-    wholeUrl = url + endpoint + '/' + paramsObj + '?page=' + page;
-  } else if (paramsObj !== '' && page === undefined) {
-    wholeUrl = url + endpoint + '/' + paramsObj;
-  } else if (paramsObj === '' && page !== undefined) {
-    wholeUrl = url + endpoint + '?page=' + page;
-  } else {
-    wholeUrl = url + endpoint;
+export async function getAdmin(endpoint, paramsObj, query, token) {
+  let wholeUrl = url + endpoint;
+  if (paramsObj !== undefined && paramsObj !== null) {
+    wholeUrl += '/' + paramsObj;
   }
+  wholeUrl += '?';
+  if (query !== undefined) {
+    if (query.search !== null) wholeUrl += 'search=' + query.search + '&';
+    if (query.status !== null && query.status !== undefined)
+      wholeUrl += 'status=' + query.status + '&';
+    if (query.page !== null) wholeUrl += 'page=' + query.page + '&';
+  }
+
   let response = await fetch(wholeUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
       'content-type': 'application/json',
     },
     method: 'GET',
+    credentials: 'same-origin',
+  });
+  if (!response.ok) {
+    console.log('error z url : ', wholeUrl);
+    return response;
+    throw new Error(response.statusText);
+  }
+
+  let result = await response.json();
+  console.log('poszlo z url', wholeUrl, result);
+  return result;
+}
+
+export async function postAdmin(endpoint, paramsObj, token, body) {
+  let wholeUrl;
+  if (paramsObj !== undefined) {
+    wholeUrl = url + endpoint + '/' + paramsObj;
+  } else {
+    wholeUrl = url + endpoint;
+  }
+  let response = await fetch(wholeUrl, {
+    body: JSON.stringify(body),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+    method: 'POST',
     credentials: 'same-origin',
   });
   if (!response.ok) {

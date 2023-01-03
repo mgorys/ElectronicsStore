@@ -10,7 +10,7 @@ namespace ElectronicsStore.Abstractions.IRepositories
 {
     public interface IPurchaseRepository
     {
-        Task<ServerResponse<List<Product>>> GetListOfProductsAsync(IEnumerable<Product> purchase);
-        Task<Order> PostPurchaseAsync(IEnumerable<PurchaseItem> purchase, decimal sum, string purchaseOwner);
+        //Task<ServerResponse<List<Product>>> GetListOfProductsAsync(IEnumerable<Product> purchase);
+        Task<ServerResponseSuccess<Order>> PostPurchaseAsync(IEnumerable<PurchaseItem> purchase, decimal sum, string purchaseOwner);
     }
 }

@@ -97,7 +97,7 @@ namespace ElectronicsStore.API
         //         new Category()
         //         {
         //             Id = 3,
-        //             Name = "Accesories",
+        //             Name = "Accessories",
         //         }
         //    };
         //}

@@ -22,9 +22,9 @@ namespace ElectronicsStore.Services
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
-        public async Task<ServerResponse<IEnumerable<CategoryDto>>> GetCategoriesAsync()
+        public async Task<ServerResponseSuccess<IEnumerable<CategoryDto>>> GetCategoriesAsync()
         {
-            var resultDto = new ServerResponse<IEnumerable<CategoryDto>>();
+            var resultDto = new ServerResponseSuccess<IEnumerable<CategoryDto>>();
             var result = await _categoryRepository.GetCategoriesAsync();
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");

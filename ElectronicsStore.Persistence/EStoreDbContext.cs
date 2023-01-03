@@ -41,7 +41,7 @@ namespace ElectronicsStore.Persistence
                  new Category
                  {
                      Id = 3,
-                     Name = "Accesories",
+                     Name = "Accessories",
                  }
                 );
             modelBuilder.Entity<Brand>().HasData(

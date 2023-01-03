@@ -1,9 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Button from '../button.component';
 import { CategoriesContext } from '../contexts/categories.context';
-import { ProductsContext } from '../contexts/products.context';
 import './Categories.scss';
-import FormInput from '../AuthPage/FormInput';
 
 const Categories = ({ categories }) => {
   const { changeCategory, searchProducts } = useContext(CategoriesContext);

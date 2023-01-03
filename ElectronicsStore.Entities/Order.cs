@@ -17,7 +17,7 @@ namespace ElectronicsStore.Entities
         public virtual User User { get; set; }
         public int OrderNumber { get; set; }
         public DateTime PutDate { get; set; }
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
         public decimal TotalWorth { get; set; }
 
     }
