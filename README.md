@@ -8,7 +8,9 @@ Shopping carts are collection where customers can easly add items, change quanti
 
 Potential customer can use app being anonymous but to create a purchase order he has to be signed up. To register he needs to provide essential informations like his email, password. Verified customer can continue to create a purchase. Successful purchase is confirmed by popup and some details, which customer could need.
 
-In addition ElectronicsStore provides an administration part, on which administrator can browse through orders letting him to organize system.
+In addition verified user can browse his history of purchases. Every purchase has shown delivery status, which customer can check.
+
+Futhermore ElectronicsStore provides an administration part, on which administrator can browse through orders letting him to organize system.
 
 ## Installation
 
@@ -45,6 +47,17 @@ builder.Services.AddCors(options =>
 
 ## Architecture
 
+Whole application is divided into smaller layers.
+
+- Abstractions - Contains Interfaces to Services and Repositoriees
+- Api - A bridge part between client and application with the usage of controllers
+- Entities - Stores models defined in database
+- Infrastructure - Place for additional Middlewares
+- Models - Stores Data Transfer Objects (DTO's)
+- Persistence - It is responsible for interacting with the database
+- Repositories - Layer with logic required to access data sources
+- Services - Layer for Buisness Logic
+
 This is a web application, which uses Model-View-Controller (MVC) design patter.
 
 Model part is supported by repository-service pattern, which contains businness logic with operations that should be performed by it.
@@ -74,13 +87,20 @@ Client sends requests on port: 7138 by default. You should check if it is proper
 
 ## Instalation
 
+Be sure to check opening directory. It should end with "estore" folder.
+
+You can type `cd estore` in terminal to change directory.
+
 ### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
-You will also see any lint errors in the console.
+
+You can deal with problem with Node-sass so i recommend to install that library.
+
+`npm install node-sass`
 
 ## About
 
