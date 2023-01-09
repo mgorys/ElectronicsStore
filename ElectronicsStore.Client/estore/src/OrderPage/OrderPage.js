@@ -5,14 +5,15 @@ import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import UserOrderEntity from './UserOrderEntity';
 import './OrderPage.scss';
+import PaginationOrder from './PaginationOrder';
 
 const OrderPage = () => {
-  const { currentUser } = useContext(UserContext);
-  const { getUsersOrders, hasItems, ordersList } = useContext(OrdersContext);
-
+  const { getUsersOrders, hasItems, ordersList, defaultQuery } =
+    useContext(OrdersContext);
+  const [queryState, setQueryState] = useState(defaultQuery);
   useEffect(() => {
     async function fetchData() {
-      await getUsersOrders(currentUser);
+      await getUsersOrders();
     }
     fetchData();
   }, []);
@@ -22,6 +23,7 @@ const OrderPage = () => {
       <div className="orderpage-body-container">
         <div className="orderpage-body-title">
           <h2>Number</h2>
+          <h2>Status</h2>
           <h2>Date</h2>
           <h2>Total</h2>
         </div>
@@ -33,6 +35,12 @@ const OrderPage = () => {
           <div>Array is empty</div>
         )}
       </div>
+      {hasItems && Array.isArray(ordersList.dataFromServer) && (
+        <PaginationOrder
+          pagesCount={ordersList.pagesCount}
+          query={queryState}
+        />
+      )}
     </>
   );
 };

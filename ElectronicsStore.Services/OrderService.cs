@@ -43,7 +43,7 @@ namespace ElectronicsStore.Services
         }
         public async Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetOrdersAsync(Query query)
         {
-            int resultCount = await _orderRepository.GetOrdersCount(query);
+            int resultCount = await _orderRepository.GetOrdersCount(null, query);
             double count = (double)resultCount / (double)query.PageSize;
             int pagesCount = (int)Math.Ceiling(count);
             query.Page ??= 1;
@@ -80,20 +80,27 @@ namespace ElectronicsStore.Services
             return date.ToString("yyyy-MM-dd hh:mm:ss");
         }
 
-        public async Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetUsersOrdersAsync(string email)
+        public async Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetUsersOrdersAsync(string email, Query query)
         {
-            var result = await _orderRepository.GetUsersOrdersAsync(email);
-
+            int resultCount = await _orderRepository.GetOrdersCount(email, query);
+            double count = (double)resultCount / (double)query.PageSize;
+            int pagesCount = (int)Math.Ceiling(count);
+            query.Page ??= 1;
+            if (query.Page < 1 || pagesCount < query.Page)
+                throw new BadRequestException("Sorry, page has been not found");
+            var result = await _orderRepository.GetUsersOrdersAsync(email, query);
             var resultDto = new ServerResponseSuccess<IEnumerable<OrderDto>>();
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<OrderDto>>(result.DataFromServer);
+            resultDto.PagesCount = pagesCount;
             resultDto.Success = result.Success;
             return resultDto;
         }
 
         public async Task<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>> GetUsersOrderByIdAsync(string userEmail, int orderNumber)
         {
+
             var result = await GetOrderByNumberAsync(orderNumber);
             if (result.UserName == userEmail)
                 return result;

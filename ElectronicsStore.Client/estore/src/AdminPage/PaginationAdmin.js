@@ -19,18 +19,15 @@ const PaginatationAdmin = ({ pagesCount, query }) => {
   }, []);
 
   const handleClick = (e) => {
-    query.page = e;
+    query.page = parseInt(e);
     getOrdersAdminWithPage(query);
     if (e == 1) setCurrentPage(1);
     else setCurrentPage(e);
   };
-  const handleInput = (e) => {
-    e.preventDefault();
-  };
   const handleChangePage = (e) => {
     let changepage;
-    if (e == 'increment') changepage = currentPage + 1;
-    else changepage = currentPage - 1;
+    if (e == 'increment') changepage = parseInt(currentPage) + 1;
+    else changepage = parseInt(currentPage) - 1;
     {
       if (changepage < 1 || changepage > pagesCount) {
         toast.error('Invalid Page');

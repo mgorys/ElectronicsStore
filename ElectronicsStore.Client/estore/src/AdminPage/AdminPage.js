@@ -5,6 +5,8 @@ import OrderEntity from './OrderEntity';
 import PaginationAdmin from './PaginationAdmin';
 import './AdminPage.scss';
 import Button from '../button.component';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminPage = () => {
   const { currentUser } = useContext(UserContext);
@@ -19,13 +21,14 @@ const AdminPage = () => {
     if (queryState !== undefined && queryState !== null) {
       queryState.pageSize = e;
       queryState.page = 1;
-      setPageSize(e);
       getOrdersAdminWithPage(queryState);
+      setPageSize(e);
     } else {
       defaultQuery.pageSize = e;
       defaultQuery.page = 1;
+      let status = getOrdersAdminWithPage(defaultQuery);
+      if (status === 400) toast.error('No items with that status');
       setPageSize(e);
-      getOrdersAdminWithPage(defaultQuery);
     }
   };
   const handleSearchSubmit = async (e) => {
@@ -34,7 +37,6 @@ const AdminPage = () => {
       (e === null || e === undefined) &&
       (search !== null || search !== undefined)
     ) {
-      console.log('wchodzi', e, search);
       queryState.search = search;
     } else queryState.search = e;
     let response = await getOrdersAdminWithPage(queryState);
@@ -66,12 +68,14 @@ const AdminPage = () => {
   async function handleChangeStatus(e) {
     queryState.status = e;
     queryState.page = null;
-    await getOrdersAdminWithPage(queryState);
+    let status = await getOrdersAdminWithPage(queryState);
+    if (status === 400) toast.error('No items with that status');
     setQueryState(queryState);
     setQueryStatus(e);
   }
   return (
     <>
+      <ToastContainer />
       {hasItems && (
         <div className="adminpage-header-container">
           <div className="adminpage-header-status">

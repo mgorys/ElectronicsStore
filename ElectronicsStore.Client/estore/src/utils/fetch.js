@@ -27,17 +27,27 @@ export async function get(endpoint, paramsObj, query) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error with url : ', wholeUrl);
     return response;
   }
   let result = await response.json();
-  console.log('data from url', wholeUrl, result);
   return result;
 }
-export async function getAuth(endpoint, paramsObj, token) {
+export async function getAuth(endpoint, paramsObj, query, token) {
   let wholeUrl = url + endpoint;
   if (paramsObj !== undefined && paramsObj !== null) {
     wholeUrl += '/' + paramsObj;
+  }
+  wholeUrl += '?';
+  if (query !== undefined && query !== null) {
+    if (query.search !== null && query.search !== undefined)
+      wholeUrl += 'search=' + query.search + '&';
+    if (query.status !== null && query.status !== undefined)
+      wholeUrl += 'status=' + query.status + '&';
+    if (query.page !== null && query.page !== undefined)
+      wholeUrl += 'page=' + query.page + '&';
+    if (query.pageSize !== null && query.pageSize !== undefined) {
+      wholeUrl += 'pageSize=' + query.pageSize + '&';
+    }
   }
   let response = await fetch(wholeUrl, {
     headers: {
@@ -48,12 +58,10 @@ export async function getAuth(endpoint, paramsObj, token) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error with url : ', wholeUrl);
     return response;
   }
 
   let result = await response.json();
-  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function getAdmin(endpoint, paramsObj, query, token) {
@@ -83,12 +91,10 @@ export async function getAdmin(endpoint, paramsObj, query, token) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error with url : ', wholeUrl);
     return response;
   }
 
   let result = await response.json();
-  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function postAdmin(endpoint, paramsObj, token, body) {
@@ -108,12 +114,10 @@ export async function postAdmin(endpoint, paramsObj, token, body) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error with url : ', wholeUrl);
     throw new Error(response.statusText);
   }
 
   let result = await response.json();
-  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function deleteAdmin(endpoint, paramsObj, token) {
@@ -121,7 +125,6 @@ export async function deleteAdmin(endpoint, paramsObj, token) {
   if (paramsObj !== undefined) {
     wholeUrl = url + endpoint + '/' + paramsObj;
   } else {
-    alert('smth went wrong');
     return false;
   }
   let response = await fetch(wholeUrl, {
@@ -133,17 +136,14 @@ export async function deleteAdmin(endpoint, paramsObj, token) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error with url : ', wholeUrl);
     throw new Error(response.statusText);
   }
   let result = await response.json();
-  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function loginUser(email, password) {
   let data = { email, password };
   let wholeUrl = url + 'account/login';
-  console.log(wholeUrl);
   let response = await fetch(wholeUrl, {
     body: JSON.stringify(data),
     credentials: 'same-origin',
@@ -154,10 +154,8 @@ export async function loginUser(email, password) {
   });
 
   if (!response.ok) {
-    console.log('logging error', response);
     return response;
   }
-  console.log(response);
   return await response.json();
 }
 export async function registerUser(email, password, confirmPassword, name) {
@@ -173,10 +171,8 @@ export async function registerUser(email, password, confirmPassword, name) {
   });
 
   if (!response.ok) {
-    console.log('logging error', response);
     return response;
   }
-  console.log(response);
   return response;
 }
 export async function postPurchase(cart, token, email) {

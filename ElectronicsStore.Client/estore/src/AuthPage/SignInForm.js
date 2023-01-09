@@ -32,28 +32,22 @@ const SignInForm = () => {
 
     try {
       const response = await loginUser(email, password);
-      console.log(response);
 
       if (response.status == 400) {
-        toast.error('Incorrect e-mail or password', { displayDuration: 3000 });
+        toast.error('Incorrect e-mail or password');
       } else {
         changeCurrentUser(response);
-        toast.success('Logged successfully', { displayDuration: 3000 });
+        toast.success('Logged successfully');
       }
       resetFormFields();
     } catch (error) {
       switch (error.code) {
         case 'auth/wrong-password':
-          alert('incorrect password for email');
-          toast.success('Incorrect e-mail or password', {
+          toast.error('Incorrect e-mail or password', {
             displayDuration: 3000,
           });
           break;
-        case 'auth/user-not-found':
-          alert('no user associated with this email');
-          break;
         default:
-          console.log(error);
       }
     }
   };

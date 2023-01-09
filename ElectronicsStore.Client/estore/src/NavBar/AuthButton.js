@@ -9,17 +9,14 @@ const AuthButton = () => {
 
   const signOutUser = () => {
     signOutUserFromContext();
-    console.log(currentUser);
-    if (currentUser === null) alert('sign out');
+    if (currentUser === null);
   };
   return (
     <div>
       {currentUser ? (
-        <Link to="/">
+        <Link to="/" className="nav-link">
           <Button buttonType="classic">
-            <div className="nav-link" onClick={signOutUser}>
-              SIGN OUT
-            </div>
+            <div onClick={signOutUser}>SIGN OUT</div>
           </Button>
         </Link>
       ) : (

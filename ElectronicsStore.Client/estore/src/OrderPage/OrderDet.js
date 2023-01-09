@@ -32,6 +32,10 @@ const OrderDet = () => {
               <div>{orderData.orderNumber}</div>
             </h2>
             <h2 className="orderdetails-entity">
+              <div>Status: </div>
+              <div>{orderData.status}</div>
+            </h2>
+            <h2 className="orderdetails-entity">
               <div>Owner: </div>
               <div>{orderData.userName}</div>
             </h2>

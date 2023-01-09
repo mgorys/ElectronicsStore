@@ -20,10 +20,10 @@ namespace ElectronicsStore.API.Controllers
             _orderService = orderService;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync()
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync([FromQuery] Query query)
         {
             var userEmail = User.FindFirst(ClaimTypes.Name)?.Value;
-            var orders = await _orderService.GetUsersOrdersAsync(userEmail);
+            var orders = await _orderService.GetUsersOrdersAsync(userEmail, query);
 
             return Ok(orders);
         }

@@ -6,7 +6,6 @@ const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
-  console.log('added to cart', productToAdd);
 
   if (existingCartItem) {
     return cartItems.map((cartItem) =>
@@ -86,7 +85,6 @@ export const CartProvider = ({ children }) => {
   };
   const postPurchaseOrder = async (e, f, g) => {
     let order = await postPurchase(e, f, g);
-    console.log(order);
     setOrderDetails(order);
     return order;
   };

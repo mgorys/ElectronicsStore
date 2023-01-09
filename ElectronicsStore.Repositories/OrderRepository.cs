@@ -89,24 +89,17 @@ namespace ElectronicsStore.Repositories
             return response;
         }
 
-        public async Task<int> GetOrdersCount(Query query)
+        public async Task<int> GetOrdersCount(string? email, Query query)
         {
-            if (query.Search != null)
-            {
-                var resultCountSearch = await _dbContext.Orders
-                    .Where(x => x.User.Email.ToLower().Contains(query.Search.ToLower()) || x.OrderNumber.ToString().Contains(query.Search.ToLower()))
+            var resultCountSearch = await _dbContext.Orders
+                .Where(x => query.Search== null
+                    || x.User.Email.ToLower().Contains(query.Search.ToLower())
+                    || x.OrderNumber.ToString().Contains(query.Search.ToLower()))
                 .Where(x => query.Status == null ? x.Status != OrderStatus.Archived : x.Status == query.Status)
+                .Where(x => email == null || x.User.Email == email)
                 .CountAsync();
                 return resultCountSearch;
-            }
-            else
-            {
-                var resultCountSearch = await _dbContext.Orders
-                .Where(x => query.Status == null ? x.Status != OrderStatus.Archived : x.Status == query.Status)
-                .CountAsync();
-                return resultCountSearch;
-            }
-        }
+           }
         public async Task<bool> DeleteOrderByNumberAsync(int number)
         {
             var result = await _dbContext.Orders
@@ -117,13 +110,16 @@ namespace ElectronicsStore.Repositories
             return true;
         }
 
-        public async Task<ServerResponseSuccess<IEnumerable<Order>>> GetUsersOrdersAsync(string email)
+        public async Task<ServerResponseSuccess<IEnumerable<Order>>> GetUsersOrdersAsync(string email, Query query)
         {
             var response = new ServerResponseSuccess<IEnumerable<Order>>();
             var result = await _dbContext.Orders
             .Include(x => x.User)
             .Where(x =>x.User.Email == email)
-            .ToListAsync();
+             .OrderByDescending(x => x.PutDate)
+                .Skip(query.PageSize * ((int)(query.Page == null ? 1 : query.Page) - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
 
             if (result == null)
             {

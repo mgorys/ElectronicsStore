@@ -14,9 +14,9 @@ namespace ElectronicsStore.Abstractions.IRepositories
     {
         Task<ServerResponseOrder<IEnumerable<PurchaseItem>>> GetOrderByNumberAsync(int number);
         Task<bool> ChangeOrderStatusByNumberAsync(int number, OrderStatus status);
-        Task<int> GetOrdersCount(Query query);
+        Task<int> GetOrdersCount(string? email, Query query);
         Task<ServerResponseSuccess<IEnumerable<Order>>> GetOrdersAsync(Query query);
         Task<bool> DeleteOrderByNumberAsync(int number);
-        Task<ServerResponseSuccess<IEnumerable<Order>>> GetUsersOrdersAsync(string email);
+        Task<ServerResponseSuccess<IEnumerable<Order>>> GetUsersOrdersAsync(string email, Query query);
     }
 }

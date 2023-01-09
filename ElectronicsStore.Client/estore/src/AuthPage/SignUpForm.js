@@ -23,7 +23,7 @@ const SignUpForm = () => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('passwords do not match');
+      toast.error('passwords do not match');
       return;
     }
 
@@ -36,15 +36,15 @@ const SignUpForm = () => {
       );
       resetFormFields();
       if (response.status == 400) {
-        toast.error('Something went wrong', { displayDuration: 3000 });
+        toast.error('Something went wrong');
       } else {
         toast.success('Account created successfuly', { displayDuration: 3000 });
       }
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        alert('Cannot create user, email already in use');
+        toast.error('Cannot create user, email already in use');
       } else {
-        console.log('user creation encountered an error', error);
+        toast.error('User creation encountered an error');
       }
     }
   };

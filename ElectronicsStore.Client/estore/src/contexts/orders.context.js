@@ -27,10 +27,12 @@ export const OrdersProvider = ({ children }) => {
     page: null,
     status: null,
   };
-  async function getUsersOrders() {
-    const orders = await getAuth('order', null, currentUser.token);
+  async function getUsersOrders(e) {
+    let query;
+    if (e === null || e === undefined) query = defaultQuery;
+    else query = e;
+    const orders = await getAuth('order', null, query, currentUser.token);
     if (orders.status === 400) {
-      alert('smth went wrong');
       return orders.status;
     }
     let changed = parseStatusToString(orders);
@@ -65,7 +67,6 @@ export const OrdersProvider = ({ children }) => {
         currentUser.token
       );
       if (orders.status === 400) {
-        alert('smth went wrong');
         return orders.status;
       }
       let changed = parseStatusToString(orders);

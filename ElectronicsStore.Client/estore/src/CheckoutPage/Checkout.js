@@ -16,7 +16,7 @@ const Checkout = () => {
   const [purchaseFinished, setPurchaseFinished] = useState(false);
   const handleSubmitPurchase = async () => {
     if (cartItems.length === 0) {
-      alert('Cart cannot be empty');
+      toast.error('Cart cannot be empty');
       return false;
     } else {
       let orderDetails = await postPurchaseOrder(
@@ -25,7 +25,6 @@ const Checkout = () => {
         currentUser.email
       );
       if (orderDetails !== undefined && orderDetails !== null) {
-        // alert('Purchase completed');
         toast.success('Purchase completed', { displayDuration: 3000 });
         clearCartItems();
         setPurchaseFinished(true);

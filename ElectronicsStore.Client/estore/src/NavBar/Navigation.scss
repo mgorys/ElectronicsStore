@@ -7,6 +7,9 @@
     display: grid;
     grid-template-columns: 170px 170px 170px 170px 30px;
     text-decoration: none;
+    .nav-link {
+      text-decoration: none;
+    }
     .nav-button-key {
       margin: auto;
       text-decoration: none;

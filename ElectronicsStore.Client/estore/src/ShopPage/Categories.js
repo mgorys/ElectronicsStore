@@ -39,7 +39,7 @@ const Categories = ({ categories }) => {
       getProductsWithCategory(currentCategory, query);
     } else {
       defaultQuery.pageSize = e;
-      query.page = 1;
+      defaultQuery.page = 1;
       setPageSize(e);
       getProductsWithCategory(currentCategory, defaultQuery);
     }
