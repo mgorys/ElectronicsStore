@@ -14,5 +14,6 @@ namespace ElectronicsStore.Abstractions.IServices
         Task<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>> GetOrderByNumberAsync(int number);
         Task<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>> ChangeOrderStatusByNumberAsync(ChangeStatusByNumberDto data);
         Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetOrdersAsync(Query query);
+        Task<bool> DeleteOrderByNumberAsync(int number);
     }
 }

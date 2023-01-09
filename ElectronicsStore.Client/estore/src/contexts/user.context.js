@@ -16,9 +16,6 @@ export const UserProvider = ({ children }) => {
   const changeCurrentUser = (e) => {
     setCurrentUser(e);
   };
-  useEffect(() => {
-    //react save to cookies
-  });
 
   const value = {
     currentUser,

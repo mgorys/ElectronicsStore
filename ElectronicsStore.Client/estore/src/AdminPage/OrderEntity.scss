@@ -1,17 +1,33 @@
-.orderitem-container {
-  text-decoration: none;
-  color: black;
+.orderitemgroup-container {
   display: flex;
-  gap: 50px;
-  max-width: 600px;
-  .orderitem-number-container {
+  gap: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+  .orderitem-container {
+    text-decoration: none;
+    color: black;
     display: flex;
-    margin-left: 50px;
-    width: 225px;
-    text-align: right;
-    justify-content: space-between;
+    gap: 50px;
+    max-width: 600px;
+    .orderitem-number {
+      display: flex;
+      width: 175px;
+      text-align: right;
+      justify-content: space-between;
+    }
+  }
+  .orderitem-status {
+    min-width: 150px;
   }
 }
 .orderitem-container:hover {
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+}
+.admin-icon {
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  margin-top: auto;
+  margin-bottom: auto;
+  color: black;
 }

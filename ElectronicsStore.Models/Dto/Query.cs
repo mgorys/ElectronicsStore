@@ -1,4 +1,5 @@
-﻿using ElectronicsStore.Entities;
+﻿using ElectronicsStore.Entities.Enums;
+using ElectronicsStore.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace ElectronicsStore.Models.Dto
         public int? Page { get; set; }
         public string? Search { get; set; }
         public OrderStatus? Status { get; set; }
+        public SortDirection? SortDirection { get; set; }
+        public int PageSize { get; set; } = 5;
     }
 }

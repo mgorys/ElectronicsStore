@@ -1,5 +1,6 @@
 ﻿using ElectronicsStore.Entities;
 using ElectronicsStore.Models;
+using ElectronicsStore.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,8 @@ namespace ElectronicsStore.Abstractions.IRepositories
 {
     public interface IProductRepository
     {
-        Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page, int pageSize);
-        Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsBySearchAsync(string search, int? page, int pageSize);
+        Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, Query query);
         Task<ServerResponseSuccess<Product>> GetProductByNameAsync(string name);
-        Task<int> GetProductsByCategoryCount(string category);
-        Task<int> GetProductsBySearchCount(string category);
+        Task<int> GetProductsCount(string category, Query query);
     }
 }

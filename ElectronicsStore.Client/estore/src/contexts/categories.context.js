@@ -1,78 +1,62 @@
 import { createContext, useState, useEffect } from 'react';
 import { get } from '../utils/fetch';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CategoriesContext = createContext({
   changedProducts: [],
   hasItems: false,
-  changeCategory: () => {},
-  changeCategoryWithPage: () => {},
-  choosenCategory: {},
-  searchProducts: () => {},
-  searchProductsWithpage: () => {},
-  searchProces: false,
-  searchRequest: {},
-  getCategories: () => {},
   categories: {},
+  query: {},
+  currentCategory: {},
+  getProductsWithCategory: () => {},
+  getCategories: () => {},
+  setQuery: () => {},
 });
 export const CategoriesProvider = ({ children }) => {
   const [categories, setCategories] = useState({});
   const [changedProducts, setChangedProducts] = useState([]);
   const [hasItems, setHasItems] = useState(false);
-  const [searchProces, setSearchProces] = useState(false);
-  const [searchRequest, setSearchRequest] = useState(null);
-  const [choosenCategory, setChoosenCategory] = useState(null);
-  let endpoint = 'category';
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [query, setQuery] = useState(null);
+  let endpoint = 'product';
   let paramsObj = undefined;
+  const defaultQuery = {
+    search: null,
+    page: null,
+    sortDirection: null,
+  };
 
   async function getCategories(e) {
-    const fetchedData = await get(endpoint, paramsObj);
+    const fetchedData = await get('category', paramsObj);
     setCategories(fetchedData);
-    setSearchProces(false);
+    setQuery(defaultQuery);
   }
-
-  async function changeCategory(e) {
-    const fetchedData = await get('product', e);
-    setChangedProducts(fetchedData);
-    setChoosenCategory(e);
-    setHasItems(true);
-    setSearchProces(false);
-  }
-  async function changeCategoryWithPage(e, f) {
-    const fetchedData = await get('product', e, f);
-    setChangedProducts(fetchedData);
-    setHasItems(true);
-    setSearchProces(false);
-  }
-
-  async function searchProducts(e) {
-    const fetchedData = await get('product/search', e);
-    setChangedProducts(fetchedData);
-    setSearchRequest(e);
-    setHasItems(true);
-    setSearchProces(true);
-  }
-  async function searchProductsWithpage(e, f) {
-    const fetchedData = await get('product/search', e, f);
-    setChangedProducts(fetchedData);
-    setHasItems(true);
-    setSearchProces(true);
+  async function getProductsWithCategory(paramsObj, f) {
+    const fetchedData = await get(endpoint, paramsObj, f);
+    if (fetchedData.status >= 400)
+      toast.error(`Something went wrong`, { displayDuration: 3000 });
+    else {
+      setChangedProducts(fetchedData);
+      setCurrentCategory(paramsObj);
+      setQuery(f);
+      setHasItems(true);
+    }
   }
 
   const value = {
-    changeCategory,
-    hasItems,
     changedProducts,
-    changeCategoryWithPage,
-    choosenCategory,
-    searchProducts,
-    searchProces,
-    searchRequest,
-    searchProductsWithpage,
-    getCategories,
+    hasItems,
     categories,
+    query,
+    currentCategory,
+    getProductsWithCategory,
+    getCategories,
+    setQuery,
   };
   return (
     <CategoriesContext.Provider value={value}>
+      <ToastContainer />
       {children}
     </CategoriesContext.Provider>
   );

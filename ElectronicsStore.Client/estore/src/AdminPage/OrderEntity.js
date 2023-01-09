@@ -1,20 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './OrderEntity.scss';
+import { OrdersContext } from '../contexts/orders.context';
+import { useContext } from 'react';
+import { FaTimes, FaCheck } from 'react-icons/fa';
 
-const OrderEntity = ({ order }) => {
-  const { orderNumber, status } = order;
+const OrderEntity = ({ order, query, refreshOrders }) => {
+  const { orderNumber, status, userName } = order;
+  const { deleteOrderAdmin, changeOrderStatusAdmin, getOrdersAdminWithPage } =
+    useContext(OrdersContext);
+  const handleDelete = () => {
+    deleteOrderAdmin(orderNumber);
+  };
+  const handleAccept = () => {
+    changeOrderStatusAdmin(orderNumber, 'Prepared');
+    getOrdersAdminWithPage(query);
+    refreshOrders();
+  };
 
   return (
     <>
-      <div>
+      <div className="orderitemgroup-container">
         <Link to={`/admin/${orderNumber}`} className="orderitem-container">
-          <div className="orderitem-number-container">
-            <h2 className="orderitem-number-title">Order :</h2>
-            <h2 className="orderitem-number-number">{orderNumber}</h2>
-          </div>
-          <h2 className="orderitem-status">Status : {status}</h2>
+          <h2 className="orderitem-number">{orderNumber}</h2>
+          <h2 className="orderitem-owner">{userName}</h2>
+          <h2 className="orderitem-status">{status}</h2>
         </Link>
+        {status === 'Created' && (
+          <>
+            <FaCheck onClick={handleAccept} className="admin-icon" />
+            <FaTimes onClick={handleDelete} className="admin-icon" />
+          </>
+        )}
       </div>
     </>
   );

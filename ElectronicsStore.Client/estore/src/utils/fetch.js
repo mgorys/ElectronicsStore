@@ -1,13 +1,25 @@
 const url = 'https://localhost:7202/api/';
 
-export async function get(endpoint, paramsObj, page) {
-  let wholeUrl;
-  if (paramsObj !== undefined && page !== undefined) {
-    wholeUrl = url + endpoint + '/' + paramsObj + '?page=' + page;
-  } else if (paramsObj !== undefined && page === undefined) {
-    wholeUrl = url + endpoint + '/' + paramsObj;
-  } else {
-    wholeUrl = url + endpoint;
+export async function get(endpoint, paramsObj, query) {
+  let wholeUrl = url + endpoint;
+  if (paramsObj !== undefined && paramsObj !== null) {
+    wholeUrl += '/' + paramsObj;
+  }
+  wholeUrl += '?';
+  if (query !== undefined) {
+    if (query.search !== null && query.search !== undefined) {
+      wholeUrl += 'search=' + query.search + '&';
+    }
+    if (query.sortDirection !== null && query.sortDirection !== undefined) {
+      wholeUrl += 'sortDirection=' + query.sortDirection + '&';
+    }
+    if (query.pageSize !== null && query.pageSize !== undefined) {
+      wholeUrl += 'pageSize=' + query.pageSize + '&';
+    }
+    if (query.status !== null && query.status !== undefined)
+      wholeUrl += 'status=' + query.status + '&';
+    if (query.page !== null && query.page !== undefined)
+      wholeUrl += 'page=' + query.page + '&';
   }
   let response = await fetch(wholeUrl, {
     headers: { 'content-type': 'application/json' },
@@ -16,14 +28,12 @@ export async function get(endpoint, paramsObj, page) {
   });
   if (!response.ok) {
     console.log('error z url : ', wholeUrl);
-    throw new Error(response.statusText);
+    return response;
   }
-
   let result = await response.json();
   console.log('poszlo z url', wholeUrl, result);
   return result;
 }
-
 export async function getAdmin(endpoint, paramsObj, query, token) {
   let wholeUrl = url + endpoint;
   if (paramsObj !== undefined && paramsObj !== null) {
@@ -31,10 +41,15 @@ export async function getAdmin(endpoint, paramsObj, query, token) {
   }
   wholeUrl += '?';
   if (query !== undefined) {
-    if (query.search !== null) wholeUrl += 'search=' + query.search + '&';
+    if (query.search !== null && query.search !== undefined)
+      wholeUrl += 'search=' + query.search + '&';
     if (query.status !== null && query.status !== undefined)
       wholeUrl += 'status=' + query.status + '&';
-    if (query.page !== null) wholeUrl += 'page=' + query.page + '&';
+    if (query.page !== null && query.page !== undefined)
+      wholeUrl += 'page=' + query.page + '&';
+    if (query.pageSize !== null && query.pageSize !== undefined) {
+      wholeUrl += 'pageSize=' + query.pageSize + '&';
+    }
   }
 
   let response = await fetch(wholeUrl, {
@@ -48,14 +63,12 @@ export async function getAdmin(endpoint, paramsObj, query, token) {
   if (!response.ok) {
     console.log('error z url : ', wholeUrl);
     return response;
-    throw new Error(response.statusText);
   }
 
   let result = await response.json();
   console.log('poszlo z url', wholeUrl, result);
   return result;
 }
-
 export async function postAdmin(endpoint, paramsObj, token, body) {
   let wholeUrl;
   if (paramsObj !== undefined) {
@@ -81,7 +94,30 @@ export async function postAdmin(endpoint, paramsObj, token, body) {
   console.log('poszlo z url', wholeUrl, result);
   return result;
 }
-
+export async function deleteAdmin(endpoint, paramsObj, token) {
+  let wholeUrl;
+  if (paramsObj !== undefined) {
+    wholeUrl = url + endpoint + '/' + paramsObj;
+  } else {
+    alert('smth went wrong');
+    return false;
+  }
+  let response = await fetch(wholeUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+    method: 'DELETE',
+    credentials: 'same-origin',
+  });
+  if (!response.ok) {
+    console.log('error z url : ', wholeUrl);
+    throw new Error(response.statusText);
+  }
+  let result = await response.json();
+  console.log('poszlo z url', wholeUrl, result);
+  return result;
+}
 export async function loginUser(email, password) {
   let data = { email, password };
   let wholeUrl = url + 'account/login';
@@ -96,12 +132,12 @@ export async function loginUser(email, password) {
   });
 
   if (!response.ok) {
-    throw new Error(response.statusText);
+    console.log('logging error', response);
+    return response;
   }
   console.log(response);
   return await response.json();
 }
-
 export async function registerUser(email, password, confirmPassword, name) {
   let data = { name, email, password, confirmPassword };
   let wholeUrl = url + 'account/register';
@@ -115,12 +151,12 @@ export async function registerUser(email, password, confirmPassword, name) {
   });
 
   if (!response.ok) {
-    throw new Error(response.statusText);
+    console.log('logging error', response);
+    return response;
   }
   console.log(response);
-  return await response;
+  return response;
 }
-
 export async function postPurchase(cart, token, email) {
   let purchaseList = new Array();
   cart.forEach((element) => {

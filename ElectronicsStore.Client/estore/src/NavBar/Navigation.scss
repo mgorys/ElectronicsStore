@@ -1,10 +1,12 @@
 .nav-container {
   display: flex;
   justify-content: space-between;
-  margin: 5px;
+  padding: 10px;
+  background: black;
   .nav-button-container {
     display: grid;
     grid-template-columns: 170px 170px 170px 30px;
+    text-decoration: none;
     .nav-button-key {
       margin: auto;
       text-decoration: none;

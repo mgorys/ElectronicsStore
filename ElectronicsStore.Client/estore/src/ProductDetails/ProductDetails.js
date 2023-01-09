@@ -26,8 +26,8 @@ const ProductDetails = () => {
           <img className="productdetails-image" src={imgUrl} />
           <div className="productdetails-container-details">
             <h2>{product.name}</h2>
+            <h2>{brandName}</h2>
             <h3>{price}PLN</h3>
-            <h3>{brandName}</h3>
             <h3>{description}</h3>
             <Button buttonType="classic" onClick={addProductToCart}>
               Add to cart

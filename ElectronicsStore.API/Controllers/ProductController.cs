@@ -15,9 +15,9 @@ namespace ElectronicsStore.API.Controllers
             _productService = productService;
         }
         [HttpGet("{category}")]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductsByCategory([FromRoute]string category, [FromQuery]int? page)
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductsByCategory([FromRoute]string category, [FromQuery] Query query)
         {
-            var products = await _productService.GetProductsByCategoryAsync(category, page);
+            var products = await _productService.GetProductsByCategoryAsync(category, query);
 
             return Ok(products);
         }
@@ -29,13 +29,5 @@ namespace ElectronicsStore.API.Controllers
 
             return Ok(products.DataFromServer);
         }
-        [HttpGet("search/{search}")]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetProductBySearch([FromRoute] string search, [FromQuery] int? page)
-        {
-            var products = await _productService.GetProductsBySearchAsync(search, page);
-
-            return Ok(products);
-        }
-
     }
 }

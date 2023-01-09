@@ -5,7 +5,6 @@ import Button from '../button.component';
 import './Navigation.scss';
 import AuthButton from './AuthButton';
 import UserTag from './UserTag';
-import { FaKey } from 'react-icons/fa';
 import { UserContext } from '../contexts/user.context';
 
 const Navigation = () => {
@@ -25,16 +24,15 @@ const Navigation = () => {
           </Link>
           {currentUser && currentUser.userName === 'Admin' && (
             <Link className="nav-button-key" to="/admin">
-              <FaKey />
+              <Button buttonType="classic">Admin</Button>
             </Link>
           )}
         </div>
         <div className="nav-container-right">
           <UserTag />
           <CartIcon />
-          <Link className="nav-link" to="/auth">
-            <AuthButton />
-          </Link>
+
+          <AuthButton />
         </div>
       </div>
     </>

@@ -1,8 +1,9 @@
 .adminpage-header-container {
-  margin-left: 50px;
-  margin-right: 50px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 60px 500px;
+  margin: 0px;
+  background-color: white;
+  padding: 10px;
 
   .searchField-admin {
     display: flex;
@@ -23,5 +24,71 @@
     margin-top: auto;
     margin-bottom: auto;
     display: flex;
+    .dropbtn {
+      background-color: black;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      width: 160px;
+      cursor: pointer;
+    }
+
+    .dropdown-container {
+      /* The container <div> - needed to position the dropdown content */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      /* Links inside the dropdown */
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      /* Change color of dropdown links on hover */
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      /* Show the dropdown menu on hover */
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      /* Change the background color of the dropdown button when the dropdown content is shown */
+      .dropdown:hover .dropbtn {
+        background-color: black;
+      }
+    }
+  }
+}
+.adminpage-body-container {
+  max-width: 800px;
+  margin: 10px auto 10px auto;
+  background-color: white;
+  padding-bottom: 20px;
+  border: 2px solid rgb(227, 212, 212);
+  border-radius: 5px;
+  .adminpage-body-title {
+    display: grid;
+    margin-left: 20px;
+    margin-right: 20px;
+    grid-template-columns: 190px 260px auto;
+    border-bottom: solid hwb(218 88% 8% / 0.945);
+    border-bottom-style: solid;
   }
 }

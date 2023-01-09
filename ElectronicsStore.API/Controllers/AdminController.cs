@@ -43,5 +43,12 @@ namespace ElectronicsStore.API.Controllers
 
             return Ok(order);
         }
+        [HttpDelete("order/{number}")]
+        public async Task<ActionResult<bool>> DeleteOrderByNumberAsync(int number)
+        {
+            var order = await _orderService.DeleteOrderByNumberAsync(number);
+
+            return Ok(order);
+        }
     }
 }

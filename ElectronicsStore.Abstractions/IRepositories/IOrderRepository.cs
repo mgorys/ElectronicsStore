@@ -1,4 +1,5 @@
 ﻿using ElectronicsStore.Entities;
+using ElectronicsStore.Entities.Enums;
 using ElectronicsStore.Models;
 using ElectronicsStore.Models.Dto;
 using System;
@@ -14,6 +15,7 @@ namespace ElectronicsStore.Abstractions.IRepositories
         Task<ServerResponseOrder<IEnumerable<PurchaseItem>>> GetOrderByNumberAsync(int number);
         Task<bool> ChangeOrderStatusByNumberAsync(int number, OrderStatus status);
         Task<int> GetOrdersCount(Query query);
-        Task<ServerResponseSuccess<IEnumerable<Order>>> GetOrdersAsync(Query query, int pageSize);
+        Task<ServerResponseSuccess<IEnumerable<Order>>> GetOrdersAsync(Query query);
+        Task<bool> DeleteOrderByNumberAsync(int number);
     }
 }

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Button from '../button.component';
 import { UserContext } from '../contexts/user.context';
 import './AuthButton.scss';
+import { Link } from 'react-router-dom';
 
 const AuthButton = () => {
   const { currentUser, signOutUserFromContext } = useContext(UserContext);
@@ -14,15 +15,15 @@ const AuthButton = () => {
   return (
     <div>
       {currentUser ? (
-        <Button buttonType="inverted">
+        <Button buttonType="classic">
           <div className="nav-link" onClick={signOutUser}>
             SIGN OUT
           </div>
         </Button>
       ) : (
-        <div className="nav-link" to="/auth">
+        <Link className="nav-link" to="/auth">
           <Button buttonType="classic">SIGN IN</Button>
-        </div>
+        </Link>
       )}
     </div>
   );

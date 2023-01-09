@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import FormInput from './FormInput';
 import Button from '../button.component';
 import { registerUser } from '../utils/fetch';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const defaultFormFields = {
   displayName: '',
   email: '',
@@ -27,15 +28,17 @@ const SignUpForm = () => {
     }
 
     try {
-      const reponse = await registerUser(
+      const response = await registerUser(
         email,
         password,
         confirmPassword,
         displayName
       );
       resetFormFields();
-      if (reponse.status === 201) {
-        alert('account created, you can signup');
+      if (response.status == 400) {
+        toast.error('Something went wrong', { displayDuration: 3000 });
+      } else {
+        toast.success('Account created successfuly', { displayDuration: 3000 });
       }
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -94,6 +97,7 @@ const SignUpForm = () => {
         <Button buttonType="classic" type="submit">
           Sign Up
         </Button>
+        <ToastContainer />
       </form>
     </div>
   );

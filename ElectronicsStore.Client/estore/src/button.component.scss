@@ -56,6 +56,15 @@
       border: none;
     }
   }
+  &.pagination {
+    min-width: 30px;
+    max-width: 50px;
+    background-color: black;
+    padding: 0 15px 0 15px;
+    color: white;
+    border: 1px solid black;
+    cursor: default;
+  }
   &.invertedgotopagination {
     min-width: 60px;
     max-width: 100px;

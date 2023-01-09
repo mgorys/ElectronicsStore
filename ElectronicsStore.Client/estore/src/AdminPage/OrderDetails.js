@@ -2,12 +2,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import { OrdersContext } from '../contexts/orders.context';
 import { UserContext } from '../contexts/user.context';
 import { useParams } from 'react-router-dom';
+import './OrderDetails.scss';
+import { Link } from 'react-router-dom';
 
 const OrderDetails = () => {
   const { orderNumber } = useParams();
   const [orderData, setOrderData] = useState();
   const [hasData, setHasData] = useState(false);
-  const [displayStatus, setDisplayStatus] = useState(null);
   const { currentUser } = useContext(UserContext);
   const { getOrderAdmin, changeOrderStatusAdmin } = useContext(OrdersContext);
   const fetchOrder = async () => {
@@ -22,7 +23,7 @@ const OrderDetails = () => {
     fetchData();
   }, []);
 
-  const handleStatusChange = async (e) => {
+  const handleChangeStatus = async (e) => {
     let fetchData = await changeOrderStatusAdmin(orderNumber, e);
     setOrderData(fetchData);
   };
@@ -30,32 +31,58 @@ const OrderDetails = () => {
   return (
     <>
       {currentUser.userName === 'Admin' && hasData && (
-        <div>
-          <h2>OrderDetails : </h2>
-          <h2>Order Number: {orderData.orderNumber}</h2>
-          <h2>Order Status: {orderData.status}</h2>
-          <h2>Order PutDate: {orderData.putDate}</h2>
-          <h2>Owner : {orderData.userName}</h2>
-          <h2>Worth : {orderData.totalWorth}</h2>
-          <h2>
-            Change status:
-            <select
-              name="status"
-              value={orderData.status}
-              onChange={(e) => handleStatusChange(e.target.value)}>
-              <option value="Created">Created</option>
-              <option value="Prepared">Prepared</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Archived">Archived</option>
-            </select>
-          </h2>
-          {Array.isArray(orderData.purchasedItemList) &&
-            orderData.purchasedItemList.map((item) => (
-              <div className="checkoutitem-container" key={item.productId}>
-                <h3>Product: {item.name}</h3>
-                <h3>Count: {item.count}</h3>
+        <div className="orderdetails-page">
+          <div className="orderdetails-container">
+            <h2 className="orderdetails-entity">
+              <div>Number: </div>
+              <div>{orderData.orderNumber}</div>
+            </h2>
+            <h2 className="orderdetails-entity">
+              <div>Owner: </div>
+              <div>{orderData.userName}</div>
+            </h2>
+            <h2 className="orderdetails-entity">
+              <div>Date: </div>
+              <div>{orderData.putDate}</div>
+            </h2>
+            <h2 className="orderdetails-entity">
+              <div>Worth: </div>
+              <div>{orderData.totalWorth}PLN</div>
+            </h2>
+            <h2>
+              <div className="dropdown">
+                <button className="dropbtn">{orderData.status}</button>
+                <div className="dropdown-content">
+                  <a onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                    Prepared
+                  </a>
+                  <a onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                    Shipped
+                  </a>
+                  <a onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                    Archived
+                  </a>
+                </div>
               </div>
-            ))}
+            </h2>
+            <div />
+            <div className="orderdetails-list">
+              <div className="orderdetails-list-header">
+                <h2>Product</h2>
+                <h2>Count</h2>
+              </div>
+              {Array.isArray(orderData.purchasedItemList) &&
+                orderData.purchasedItemList.map((item) => (
+                  <Link
+                    to={`/product/${item.name}`}
+                    className="orderdetails-list-item"
+                    key={item.productId}>
+                    <h2> {item.name}</h2>
+                    <h2>{item.count}</h2>
+                  </Link>
+                ))}
+            </div>
+          </div>
         </div>
       )}
     </>

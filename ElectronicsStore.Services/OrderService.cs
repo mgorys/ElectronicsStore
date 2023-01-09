@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using ElectronicsStore.Entities;
+using ElectronicsStore.Entities.Enums;
 
 namespace ElectronicsStore.Services
 {
@@ -43,15 +43,14 @@ namespace ElectronicsStore.Services
         }
         public async Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetOrdersAsync(Query query)
         {
-            int pageSize = 5;
             int resultCount = await _orderRepository.GetOrdersCount(query);
-            double count = (double)resultCount / (double)pageSize;
+            double count = (double)resultCount / (double)query.PageSize;
             int pagesCount = (int)Math.Ceiling(count);
             query.Page ??= 1;
             if (query.Page < 1 || pagesCount < query.Page)
                 throw new BadRequestException("Sorry, page has been not found");
             var resultDto = new ServerResponseSuccess<IEnumerable<OrderDto>>();
-            var result = await _orderRepository.GetOrdersAsync(query, pageSize);
+            var result = await _orderRepository.GetOrdersAsync(query);
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<OrderDto>>(result.DataFromServer);
@@ -68,6 +67,13 @@ namespace ElectronicsStore.Services
                 throw new NotFoundException("Sorry, entities have been not found");
             var resultDto = await GetOrderByNumberAsync(number);
             return resultDto;
+        }
+        public async Task<bool> DeleteOrderByNumberAsync(int number)
+        {
+            var result = await _orderRepository.DeleteOrderByNumberAsync(number);
+            if (result == false)
+                throw new NotFoundException("Sorry, entity has been not found");
+            return result;
         }
         public string ChangeDateTimeFormat(DateTime date)
         {

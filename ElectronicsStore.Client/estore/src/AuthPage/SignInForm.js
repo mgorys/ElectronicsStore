@@ -5,6 +5,8 @@ import { useState } from 'react';
 import FormInput from './FormInput';
 import { useContext } from 'react';
 import { UserContext } from '../contexts/user.context';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const defaultFormFields = {
   email: '',
@@ -32,17 +34,20 @@ const SignInForm = () => {
       const response = await loginUser(email, password);
       console.log(response);
 
-      if (response.status !== null) {
-        changeCurrentUser(response);
-        alert('logged succesfully');
+      if (response.status == 400) {
+        toast.error('Incorrect e-mail or password', { displayDuration: 3000 });
       } else {
-        alert('something went wrong');
+        changeCurrentUser(response);
+        toast.success('Logged successfully', { displayDuration: 3000 });
       }
       resetFormFields();
     } catch (error) {
       switch (error.code) {
         case 'auth/wrong-password':
           alert('incorrect password for email');
+          toast.success('Incorrect e-mail or password', {
+            displayDuration: 3000,
+          });
           break;
         case 'auth/user-not-found':
           alert('no user associated with this email');
@@ -81,6 +86,7 @@ const SignInForm = () => {
           </Button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

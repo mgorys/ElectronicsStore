@@ -1,5 +1,6 @@
 ﻿using ElectronicsStore.Abstractions.IRepositories;
 using ElectronicsStore.Entities;
+using ElectronicsStore.Entities.Enums;
 using ElectronicsStore.Models;
 using ElectronicsStore.Persistence;
 using ElectronicsStore.Persistence.Migrations;
@@ -20,27 +21,6 @@ namespace ElectronicsStore.Repositories
         {
             _dbContext = dbContext;
         }
-        //Do i use that?
-
-        //public async Task<ServerResponse<List<Product>>> GetListOfProductsAsync(IEnumerable<Product> purchase)
-        //{
-        //    var resultList = new ServerResponse<List<Product>>();
-        //    List<Product> list = new();
-        //    foreach(var item in purchase)
-        //    {
-        //        var itemToAdd =  await _dbContext.Products.FirstOrDefaultAsync(x=>x.Name == item.Name);
-        //        if(itemToAdd == null)
-        //        {
-        //            resultList.Success = false;
-        //            return resultList;
-        //        }
-        //        list.Add(itemToAdd);
-
-        //    }
-        //    resultList.DataFromServer = list;
-        //    resultList.Success = true;
-        //    return resultList;
-        //}
         public async Task<ServerResponseSuccess<Order>> PostPurchaseAsync(IEnumerable<PurchaseItem> purchase, decimal sum, string purchaseOwner)
         {
             var response = new ServerResponseSuccess<Order>();

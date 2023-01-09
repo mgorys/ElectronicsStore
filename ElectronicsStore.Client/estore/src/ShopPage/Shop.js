@@ -12,14 +12,13 @@ const Shop = () => {
     hasItems,
     changedProducts,
     choosenCategory,
-    searchProces,
     getCategories,
+    getProductsWithCategory,
   } = useContext(CategoriesContext);
   const { dataFromServer } = changedProducts;
 
-  const { changeCategory } = useContext(CategoriesContext);
   const changeCategoryHandler = (e) => {
-    changeCategory(e);
+    getProductsWithCategory(e);
   };
 
   useEffect(() => {
@@ -69,7 +68,6 @@ const Shop = () => {
         )}
         {hasItems && Array.isArray(dataFromServer) && (
           <Pagination
-            searchProces={searchProces}
             category={choosenCategory}
             pagesCount={changedProducts.pagesCount}
           />

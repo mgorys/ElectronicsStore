@@ -1,23 +1,92 @@
 .categories-container {
   display: grid;
   grid-template-columns: auto 500px;
-  margin: 5px;
+  background-color: white;
+  margin: 0px;
+  // margin-top: auto;
+  // margin-bottom: auto;
+  padding: 10px;
   .categoires-buttons-container {
     display: grid;
     grid-template-columns: 170px 170px 170px;
   }
-  .searchField {
+  .searchPanel {
     display: flex;
-    text-align: right;
-    .search-input {
-      text-align: right;
-      background: none;
-      background-color: white;
-      font-size: 18px;
-      display: block;
-      width: 100%;
-      padding: 5px;
-      margin: 2px;
+    justify-content: flex-end;
+    .searchPanel-sortDirection {
+      display: flex;
+      .button-arrow {
+        margin: auto 5px auto 5px;
+        background-color: black;
+        color: white;
+        padding: 15px;
+        font-size: 20px;
+        border: none;
+        height: 50px;
+        width: 50px;
+        cursor: pointer;
+      }
+    }
+    .searchField {
+      display: flex;
+      .search-input {
+        background: none;
+        background-color: white;
+        font-size: 18px;
+        display: block;
+        max-width: 300px;
+        max-height: 50px;
+      }
     }
   }
+}
+/* The container <div> - needed to position the dropdown content */
+.dropdown-pageSize {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 5px;
+  position: relative;
+  display: inline-block;
+  .dropbtn-pageSize {
+    background-color: black;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    width: 50px;
+    cursor: pointer;
+  }
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-pageSize-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 50px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-pageSize-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-pageSize-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-pageSize:hover .dropdown-pageSize-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown-pageSize:hover .dropbtn-pageSize {
+  background-color: black;
 }

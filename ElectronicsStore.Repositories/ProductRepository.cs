@@ -1,14 +1,17 @@
 ﻿using ElectronicsStore.Abstractions.IRepositories;
 using ElectronicsStore.Entities;
 using ElectronicsStore.Models;
+using ElectronicsStore.Models.Dto;
+using ElectronicsStore.Models.Enums;
 using ElectronicsStore.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ElectronicsStore.Repositories
 {
@@ -42,42 +45,28 @@ namespace ElectronicsStore.Repositories
             return response;
         }
 
-        public async Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, int? page ,int pageSize)
+        public async Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsByCategoryAsync(string category, Query query)
         {
             var response = new ServerResponseSuccess<IEnumerable<Product>>();
-            var result = await _dbContext.Products
-                .Include(x=>x.Category)
-                .Include(x=>x.Brand)
-                .Where(x=>x.Category.Name == category)
-                .Skip(pageSize * ((int)(page == null ? 1 : page) - 1))
-                .Take(pageSize)
-                .ToListAsync();
+            var result = new List<Product>();
 
-            if (result == null)
-            {
-                response.Success = false;
-                return response;
-            }
-            else
-            {
-                response.Success = true;
-            }
-            response.DataFromServer = result;
-            return response;
-        }
-        public async Task<ServerResponseSuccess<IEnumerable<Product>>> GetProductsBySearchAsync(string search, int? page, int pageSize)
-        {
-            var response = new ServerResponseSuccess<IEnumerable<Product>>();
-            var result = await _dbContext.Products
+            var baseQuery = _dbContext.Products
                 .Include(x => x.Category)
                 .Include(x => x.Brand)
-                .Where(x => x.Name.ToLower().Contains(search.ToLower())
-                || x.Description.ToLower().Contains(search.ToLower())
-                || x.Brand.Name.ToLower().Contains(search.ToLower()))
-                .Skip(pageSize * ((int)(page == null ? 1 : page) - 1))
-                .Take(pageSize)
-                .ToListAsync();
+                .Where(x => x.Category.Name == category)
+                .Where(query.Search != null ? x => x.Name.ToLower().Contains(query.Search.ToLower())
+                            || x.Description.ToLower().Contains(query.Search.ToLower())
+                            || x.Brand.Name.ToLower().Contains(query.Search.ToLower()) : x=> x.Name != query.Search);
 
+            baseQuery = query.SortDirection == SortDirection.ASC
+                    ? baseQuery.OrderBy(x=>x.Price)
+                    : baseQuery.OrderByDescending(x => x.Price);
+
+            result = await baseQuery
+                .Skip(query.PageSize * ((int)(query.Page == null ? 1 : query.Page) - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+           
             if (result == null)
             {
                 response.Success = false;
@@ -90,18 +79,13 @@ namespace ElectronicsStore.Repositories
             response.DataFromServer = result;
             return response;
         }
-        public async Task<int> GetProductsByCategoryCount(string category)
+        public async Task<int> GetProductsCount(string category, Query query)
         {
-            var resultCount = await _dbContext.Products.Where(x => x.Category.Name == category).CountAsync();
-            return resultCount;
-        }
-        public async Task<int> GetProductsBySearchCount(string search)
-        {
-            var resultCount = await _dbContext.Products
-            .Include(p=> p.Brand)
-                .Where(x=>x.Name.ToLower().Contains(search.ToLower()) 
-                || x.Description.ToLower().Contains(search.ToLower()) 
-                || x.Brand.Name.ToLower().Contains(search.ToLower()))
+            var resultCount = await _dbContext.Products.Where(x => x.Category.Name == category)
+                .Include(p => p.Brand)
+                .Where(query.Search != null ? x => x.Name.ToLower().Contains(query.Search.ToLower())
+                || x.Description.ToLower().Contains(query.Search.ToLower())
+                || x.Brand.Name.ToLower().Contains(query.Search.ToLower()) : x=>x.Name != query.Search)
                 .CountAsync();
             return resultCount;
         }

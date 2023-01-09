@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectronicsStore.Entities
+namespace ElectronicsStore.Models.Enums
 {
-    public enum OrderStatus
+    public enum SortDirection
     {
-        Created,
-        Prepared,
-        Shipped,
-        Archived
+        ASC,
+        DESC
     }
 }

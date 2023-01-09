@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../contexts/cart.context';
 import Button from '../button.component';
+import { Link } from 'react-router-dom';
 
 const CheckoutItem = ({ cartItem }) => {
   const { name, price, quantity } = cartItem;
@@ -11,7 +12,9 @@ const CheckoutItem = ({ cartItem }) => {
   const addItemHandler = () => addItemToCart(cartItem);
   return (
     <>
-      <h2 className="checkoutitem-name">{name}</h2>
+      <Link to={`/product/${name}`} className="checkoutitem-name">
+        <h2>{name}</h2>
+      </Link>
       <h2 className="checkoutitem-quantity-container">
         <div className="checkoutitem-quantity-mark" onClick={removeItemHandler}>
           -

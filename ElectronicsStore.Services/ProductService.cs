@@ -38,36 +38,16 @@ namespace ElectronicsStore.Services
             return resultDto;
         }
 
-        public async Task<ServerResponseSuccess<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, int? page)
+        public async Task<ServerResponseSuccess<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, Query query)
         {
-            int pageSize = 5;
-            int resultCount = await _productRepository.GetProductsByCategoryCount(category);
-            double count = (double)resultCount / (double)pageSize;
+            int resultCount = await _productRepository.GetProductsCount(category, query);
+            double count = (double)resultCount / (double)query.PageSize;
             int pagesCount = (int)Math.Ceiling(count);
-            page ??= 1;
-            if( page < 1 || pagesCount < page)
+            query.Page ??= 1;
+            if(query.Page < 1 || pagesCount < query.Page)
                 throw new BadRequestException("Sorry, page has been not found");
             var resultDto = new ServerResponseSuccess<IEnumerable<ProductDto>>();
-            var result = await _productRepository.GetProductsByCategoryAsync(category,page,pageSize);
-            if (result.Success == false)
-                throw new NotFoundException("Sorry, entities have been not found");
-            resultDto.DataFromServer = _mapper.Map<IEnumerable<ProductDto>>(result.DataFromServer);
-            resultDto.Success = result.Success;
-            resultDto.PagesCount = pagesCount;
-            return resultDto;
-
-        }
-        public async Task<ServerResponseSuccess<IEnumerable<ProductDto>>> GetProductsBySearchAsync(string search, int? page)
-        {
-            int pageSize = 5;
-            int resultCount = await _productRepository.GetProductsBySearchCount(search);
-            double count = (double)resultCount / (double)pageSize;
-            int pagesCount = (int)Math.Ceiling(count);
-            page ??= 1;
-            if (page < 1|| pagesCount < page)
-                throw new NotFoundException("Sorry, entities have been not found");
-            var resultDto = new ServerResponseSuccess<IEnumerable<ProductDto>>();
-            var result = await _productRepository.GetProductsBySearchAsync(search, page, pageSize);
+            var result = await _productRepository.GetProductsByCategoryAsync(category, query);
             if (result.Success == false)
                 throw new NotFoundException("Sorry, entities have been not found");
             resultDto.DataFromServer = _mapper.Map<IEnumerable<ProductDto>>(result.DataFromServer);

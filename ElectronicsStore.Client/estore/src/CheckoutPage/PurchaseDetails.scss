@@ -1,0 +1,17 @@
+.purchaseDetails-body-container {
+  max-width: 800px;
+  margin: 20px auto 20px auto;
+  background-color: white;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  border: 2px solid rgb(227, 212, 212);
+  border-radius: 5px;
+  .purchaseDetails-body-title {
+    display: grid;
+    margin-left: 20px;
+    margin-right: 20px;
+    grid-template-columns: 190px 260px auto;
+    border-bottom: solid hwb(218 88% 8% / 0.945);
+    border-bottom-style: solid;
+  }
+}

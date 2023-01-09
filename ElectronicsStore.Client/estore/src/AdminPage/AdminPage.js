@@ -6,23 +6,35 @@ import PaginationAdmin from './PaginationAdmin';
 import './AdminPage.scss';
 import Button from '../button.component';
 
-const defaultQuery = {
-  search: null,
-  page: null,
-  status: null,
-};
-
 const AdminPage = () => {
   const { currentUser } = useContext(UserContext);
-  const { ordersList, hasItems, getOrdersAdminWithPage } =
+  const { ordersList, hasItems, getOrdersAdminWithPage, defaultQuery } =
     useContext(OrdersContext);
   const [search, setSearch] = useState('');
   const [queryState, setQueryState] = useState(defaultQuery);
   const [queryStatus, setQueryStatus] = useState('');
+  const [pageSize, setPageSize] = useState('');
 
+  const handleChangePageSize = (e) => {
+    if (queryState !== undefined && queryState !== null) {
+      queryState.pageSize = e;
+      setPageSize(e);
+      getOrdersAdminWithPage(queryState);
+    } else {
+      defaultQuery.pageSize = e;
+      setPageSize(e);
+      getOrdersAdminWithPage(defaultQuery);
+    }
+  };
   const handleSearchSubmit = async (e) => {
     queryState.page = null;
-    queryState.search = e;
+    if (
+      (e === null || e === undefined) &&
+      (search !== null || search !== undefined)
+    ) {
+      console.log('wchodzi', e, search);
+      queryState.search = search;
+    } else queryState.search = e;
     let response = await getOrdersAdminWithPage(queryState);
     if (response === 400) {
       queryState.search = null;
@@ -36,10 +48,15 @@ const AdminPage = () => {
     setSearch(value);
   };
 
+  const refreshOrders = () => {
+    getOrdersAdminWithPage(queryState);
+  };
+
   useEffect(() => {
     async function fetchData() {
       setQueryState(defaultQuery);
       await getOrdersAdminWithPage(defaultQuery);
+      setPageSize(5);
     }
     fetchData();
   }, []);
@@ -55,7 +72,47 @@ const AdminPage = () => {
     <>
       {hasItems && (
         <div className="adminpage-header-container">
-          <h2>Hi {currentUser.userName}</h2>
+          <div className="adminpage-header-status">
+            {hasItems && (
+              <>
+                <div className="dropdown-container">
+                  <div className="dropdown">
+                    <button className="dropbtn">Status</button>
+                    <div className="dropdown-content">
+                      <a
+                        onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                        Created
+                      </a>
+                      <a
+                        onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                        Prepared
+                      </a>
+                      <a
+                        onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                        Shipped
+                      </a>
+                      <a
+                        onClick={(e) => handleChangeStatus(e.target.innerText)}>
+                        Archived
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="dropdown-pageSize">
+            <button className="dropbtn-pageSize">{pageSize}</button>
+            <div className="dropdown-pageSize-content">
+              <a onClick={(e) => handleChangePageSize(e.target.innerText)}>5</a>
+              <a onClick={(e) => handleChangePageSize(e.target.innerText)}>
+                10
+              </a>
+              <a onClick={(e) => handleChangePageSize(e.target.innerText)}>
+                15
+              </a>
+            </div>
+          </div>
           <div className="searchField-admin">
             <input
               className="search-input"
@@ -72,28 +129,24 @@ const AdminPage = () => {
               Search
             </Button>
           </div>
-          <div className="adminpage-header-status">
-            {hasItems && (
-              <select
-                name="status"
-                value={queryStatus}
-                onChange={(e) => handleChangeStatus(e.target.value)}>
-                <option value="">Status</option>
-                <option value="Created">Created</option>
-                <option value="Prepared">Prepared</option>
-                <option value="Shipped">Shipped</option>
-                <option value="Archived">Archived</option>
-              </select>
-            )}
-          </div>
         </div>
       )}
       {currentUser.userName === 'Admin' && (
         <div>
-          <div>
+          <div className="adminpage-body-container">
+            <div className="adminpage-body-title">
+              <h2>Number</h2>
+              <h2>Owner</h2>
+              <h2>Status</h2>
+            </div>
             {hasItems && Array.isArray(ordersList.dataFromServer) ? (
               ordersList.dataFromServer.map((order) => (
-                <OrderEntity order={order} key={order.orderNumber} />
+                <OrderEntity
+                  order={order}
+                  key={order.orderNumber}
+                  query={queryState}
+                  refreshOrders={refreshOrders}
+                />
               ))
             ) : (
               <div>Array is empty</div>

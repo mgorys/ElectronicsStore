@@ -1,15 +1,16 @@
 import { createContext, useState, useContext } from 'react';
-import { getAdmin, postAdmin } from '../utils/fetch';
+import { getAdmin, postAdmin, deleteAdmin } from '../utils/fetch';
 import { UserContext } from './user.context';
 
 export const OrdersContext = createContext({
   ordersList: {},
-  // searchProductsWithpage: () => {},
-  hasItems: false,
+  hasItems: false,  
   getOrderAdmin: () => {},
   orderItem: {},
   getOrdersAdminWithPage: () => {},
   changeOrderStatusAdmin: () => {},
+  deleteOrderAdmin: () => {},
+  defaultQuery: {},
 });
 export const OrdersProvider = ({ children }) => {
   const { currentUser } = useContext(UserContext);
@@ -19,10 +20,19 @@ export const OrdersProvider = ({ children }) => {
   let endpoint = 'admin/order';
   let paramsObj = undefined;
 
+  const defaultQuery = {
+    search: null,
+    page: null,
+    status: null,
+  };
+
   async function getOrdersAdminWithPage(query) {
     if (currentUser !== null) {
-      if (Number.isInteger(query.status))
-        query.status = parseStatusToEnum(query.status);
+      if ((query !== null) & (query !== undefined)) {
+        if (Number.isInteger(query.status))
+          query.status = parseStatusToEnum(query.status);
+      }
+      paramsObj = undefined;
       const orders = await getAdmin(
         endpoint,
         paramsObj,
@@ -88,19 +98,6 @@ export const OrdersProvider = ({ children }) => {
         return 3;
     }
   }
-  // async function getOrderAdmin() {
-  //   console.log('getOrderAdmin() sie odpalilo');
-  //   const fetchedData = await getAdmin(
-  //     endpoint,
-  //     paramsObj,
-  //     undefined,
-  //     currentUser.token
-  //   );
-  //   let changed = changeStatusValue(fetchedData.dataFromServer);
-  //   setOrdersList(changed);
-  //   setHasItems(true);
-  //   return fetchedData;
-  // }
   async function getOrderAdmin(e) {
     paramsObj = e;
     const fetchedData = await getAdmin(
@@ -112,6 +109,19 @@ export const OrdersProvider = ({ children }) => {
     let changed = parseStatusToString(fetchedData);
     setOrdersList(changed);
     setHasItems(true);
+    return fetchedData;
+  }
+  async function deleteOrderAdmin(e) {
+    paramsObj = e;
+    const fetchedData = await deleteAdmin(
+      endpoint,
+      paramsObj,
+      currentUser.token
+    );
+    if (fetchedData === true) {
+      paramsObj = undefined;
+      getOrdersAdminWithPage(defaultQuery);
+    }
     return fetchedData;
   }
   async function changeOrderStatusAdmin(number, status) {
@@ -131,24 +141,15 @@ export const OrdersProvider = ({ children }) => {
     setHasItems(true);
     return fetchedData;
   }
-  // async function searchProducts(e) {
-  //   const fetchedData = await getAdmin('admin/order/search', e);
-  //   setOrdersList(fetchedData);
-  //   setHasItems(true);
-  // }
-  // async function searchProductsWithpage(e, f) {
-  //   const fetchedData = await getAdmin('admin/order/search', e, f);
-  //   setOrdersList(fetchedData);
-  //   setHasItems(true);
-  // }
   const value = {
     ordersList,
     hasItems,
-    // searchProductsWithpage,
     getOrderAdmin,
     orderItem,
     getOrdersAdminWithPage,
     changeOrderStatusAdmin,
+    deleteOrderAdmin,
+    defaultQuery,
   };
   return (
     <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>

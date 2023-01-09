@@ -1,52 +1,64 @@
-.checkout-container {
-  margin-right: 50px;
-  .checkout-header {
-    margin-left: 30px;
-    margin-top: 50px;
-    display: grid;
-    grid-template-columns: auto 150px 150px 170px;
-    .header-block {
-      text-align: center;
-    }
-    .header-block-product {
-      text-align: left;
-    }
-  }
-  .checkoutitem-container {
-    margin-left: 30px;
-    display: grid;
-    grid-template-columns: auto 150px 150px 170px;
-    align-items: center;
+.checkout-page {
+  background-color: white;
+  margin: 10px;
+  padding-bottom: 20px;
+  border: 2px solid rgb(227, 212, 212);
+  border-radius: 5px;
+  .checkout-container {
+    margin-right: 50px;
 
-    .checkoutitem-price {
-      text-align: right;
-      margin-right: 5px;
-    }
-    .checkoutitem-quantity-container {
-      display: flex;
-      margin: auto;
-      .checkoutitem-quantity {
+    .checkout-header {
+      margin-left: 30px;
+      display: grid;
+      grid-template-columns: auto 150px 150px 170px;
+      border-bottom: solid hwb(218 88% 8% / 0.945);
+      border-bottom-style: solid;
+      .header-block {
         text-align: center;
-        margin-right: 15px;
-        margin-left: 15px;
       }
-      .checkoutitem-quantity-mark {
-        cursor: pointer;
+      .header-block-product {
+        text-align: left;
       }
     }
+    .checkoutitem-container {
+      margin-left: 30px;
+      display: grid;
+      grid-template-columns: auto 150px 150px 170px;
+      align-items: center;
 
-    .checkoutitem-name {
-      text-align: left;
-      text-decoration: none;
-      color: black;
+      .checkoutitem-price {
+        text-align: right;
+        margin-right: 5px;
+      }
+      .checkoutitem-quantity-container {
+        display: flex;
+        margin: auto;
+        .checkoutitem-quantity {
+          text-align: center;
+          margin-right: 15px;
+          margin-left: 15px;
+        }
+        .checkoutitem-quantity-mark {
+          cursor: pointer;
+        }
+      }
+
+      .checkoutitem-name {
+        text-align: left;
+        text-decoration: none;
+        color: black;
+      }
+    }
+    .checkoutitem-container:hover {
+      box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
     }
   }
-}
-.checkout-summary {
-  margin-left: 30px;
+  .checkout-summary {
+    margin-left: 30px;
 
-  .total {
-    display: flex;
-    align-items: center;
+    .total {
+      display: flex;
+      align-items: center;
+    }
   }
 }

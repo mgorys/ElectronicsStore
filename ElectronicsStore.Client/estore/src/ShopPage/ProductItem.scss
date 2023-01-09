@@ -3,11 +3,15 @@
   margin-bottom: 5px;
   margin-right: 50px;
   margin-left: 50px;
+  min-width: 565px;
   display: grid;
   margin-left: 30px;
   grid-template-columns: 110px auto 150px 200px;
   align-items: center;
-
+  background-color: white;
+  padding: 5px;
+  border: 2px solid rgb(227, 212, 212);
+  border-radius: 5px;
   .productitem-price {
     text-align: right;
     margin-right: 5px;
@@ -28,5 +32,5 @@
   }
 }
 .productitem-container:hover {
-  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
 }
