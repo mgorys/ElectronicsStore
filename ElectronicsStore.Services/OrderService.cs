@@ -79,5 +79,27 @@ namespace ElectronicsStore.Services
         {
             return date.ToString("yyyy-MM-dd hh:mm:ss");
         }
+
+        public async Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetUsersOrdersAsync(string email)
+        {
+            var result = await _orderRepository.GetUsersOrdersAsync(email);
+
+            var resultDto = new ServerResponseSuccess<IEnumerable<OrderDto>>();
+            if (result.Success == false)
+                throw new NotFoundException("Sorry, entities have been not found");
+            resultDto.DataFromServer = _mapper.Map<IEnumerable<OrderDto>>(result.DataFromServer);
+            resultDto.Success = result.Success;
+            return resultDto;
+        }
+
+        public async Task<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>> GetUsersOrderByIdAsync(string userEmail, int orderNumber)
+        {
+            var result = await GetOrderByNumberAsync(orderNumber);
+            if (result.UserName == userEmail)
+                return result;
+            else
+                throw new BadRequestException("Order not found");
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import './PaginationAdmin.scss';
 import Button from '../button.component';
@@ -8,18 +8,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const PaginatationAdmin = ({ pagesCount, query }) => {
   const { getOrdersAdminWithPage } = useContext(OrdersContext);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState('');
   const pageNumbers = [];
 
   for (let i = 1; i <= pagesCount; i++) {
     if (pagesCount < 6) pageNumbers.push(i);
   }
+  useEffect(() => {
+    setCurrentPage(1);
+  }, []);
 
   const handleClick = (e) => {
     query.page = e;
-    console.log(query);
     getOrdersAdminWithPage(query);
-    setCurrentPage(e);
+    if (e == 1) setCurrentPage(1);
+    else setCurrentPage(e);
   };
   const handleInput = (e) => {
     e.preventDefault();
@@ -71,7 +74,7 @@ const PaginatationAdmin = ({ pagesCount, query }) => {
               {'<'}
             </Button>
           )}
-          {currentPage !== 1 && currentPage !== pagesCount && (
+          {currentPage !== 1 && currentPage != pagesCount && (
             <Button
               buttonType="pagination"
               // onClick={(e) => handleClick(e.target.value)}
@@ -80,7 +83,7 @@ const PaginatationAdmin = ({ pagesCount, query }) => {
               {currentPage}
             </Button>
           )}
-          {currentPage !== pagesCount && (
+          {currentPage != pagesCount && (
             <Button
               buttonType="invertedpagination"
               onClick={(e) => handleChangePage(e.target.value)}
@@ -92,7 +95,7 @@ const PaginatationAdmin = ({ pagesCount, query }) => {
 
           <Button
             buttonType={
-              currentPage !== pagesCount ? 'invertedpagination' : 'pagination'
+              currentPage != pagesCount ? 'invertedpagination' : 'pagination'
             }
             onClick={(e) => handleClick(e.target.value)}
             key={pagesCount}

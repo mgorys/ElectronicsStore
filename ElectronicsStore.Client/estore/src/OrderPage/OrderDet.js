@@ -2,17 +2,16 @@ import React, { useContext, useState, useEffect } from 'react';
 import { OrdersContext } from '../contexts/orders.context';
 import { UserContext } from '../contexts/user.context';
 import { useParams } from 'react-router-dom';
-import './OrderDetails.scss';
+import './OrderDet.scss';
 import { Link } from 'react-router-dom';
 
-const OrderDetails = () => {
+const OrderDet = () => {
   const { orderNumber } = useParams();
   const [orderData, setOrderData] = useState();
-  const [hasData, setHasData] = useState(false);
-  const { currentUser } = useContext(UserContext);
-  const { getOrderAdmin, changeOrderStatusAdmin } = useContext(OrdersContext);
+  const { hasItems, getOrder } = useContext(OrdersContext);
+  const [hasData, setHasData] = useState();
   const fetchOrder = async () => {
-    const data = await getOrderAdmin(orderNumber);
+    const data = await getOrder(orderNumber);
     setOrderData(data);
     setHasData(true);
   };
@@ -23,14 +22,9 @@ const OrderDetails = () => {
     fetchData();
   }, []);
 
-  const handleChangeStatus = async (e) => {
-    let fetchData = await changeOrderStatusAdmin(orderNumber, e);
-    setOrderData(fetchData);
-  };
-
   return (
     <>
-      {currentUser.userName === 'Admin' && hasData && (
+      {hasData && (
         <div className="orderdetails-page">
           <div className="orderdetails-container">
             <h2 className="orderdetails-entity">
@@ -49,22 +43,7 @@ const OrderDetails = () => {
               <div>Total: </div>
               <div>{orderData.totalWorth}PLN</div>
             </h2>
-            <h2>
-              <div className="dropdown">
-                <button className="dropbtn">{orderData.status}</button>
-                <div className="dropdown-content">
-                  <a onClick={(e) => handleChangeStatus(e.target.innerText)}>
-                    Prepared
-                  </a>
-                  <a onClick={(e) => handleChangeStatus(e.target.innerText)}>
-                    Shipped
-                  </a>
-                  <a onClick={(e) => handleChangeStatus(e.target.innerText)}>
-                    Archived
-                  </a>
-                </div>
-              </div>
-            </h2>
+
             <div />
             <div className="orderdetails-list">
               <div className="orderdetails-list-header">
@@ -89,4 +68,4 @@ const OrderDetails = () => {
   );
 };
 
-export default OrderDetails;
+export default OrderDet;

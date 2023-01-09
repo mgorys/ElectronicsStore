@@ -34,10 +34,12 @@ const Categories = ({ categories }) => {
   const handleChangePageSize = (e) => {
     if (query !== undefined && query !== null) {
       query.pageSize = e;
+      query.page = 1;
       setPageSize(e);
       getProductsWithCategory(currentCategory, query);
     } else {
       defaultQuery.pageSize = e;
+      query.page = 1;
       setPageSize(e);
       getProductsWithCategory(currentCategory, defaultQuery);
     }

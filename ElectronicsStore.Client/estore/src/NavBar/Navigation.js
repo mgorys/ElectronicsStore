@@ -22,6 +22,11 @@ const Navigation = () => {
           <Link className="nav-link" to="/checkout">
             <Button buttonType="classic">CHECKOUT</Button>
           </Link>
+          {currentUser && (
+            <Link className="nav-link" to="/order">
+              <Button buttonType="classic">ORDERS</Button>
+            </Link>
+          )}
           {currentUser && currentUser.userName === 'Admin' && (
             <Link className="nav-button-key" to="/admin">
               <Button buttonType="classic">Admin</Button>

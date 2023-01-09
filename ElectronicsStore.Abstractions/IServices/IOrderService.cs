@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ElectronicsStore.Entities;
+using ElectronicsStore.Persistence.Migrations;
 
 namespace ElectronicsStore.Abstractions.IServices
 {
@@ -15,5 +16,9 @@ namespace ElectronicsStore.Abstractions.IServices
         Task<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>> ChangeOrderStatusByNumberAsync(ChangeStatusByNumberDto data);
         Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetOrdersAsync(Query query);
         Task<bool> DeleteOrderByNumberAsync(int number);
+        Task<ServerResponseSuccess<IEnumerable<OrderDto>>> GetUsersOrdersAsync(string userEmail);
+        Task<ServerResponseOrderDateString<IEnumerable<PurchaseItemDto>>> GetUsersOrderByIdAsync(string userEmail,int orderNumber);
+
+        
     }
 }

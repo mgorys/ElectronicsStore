@@ -1,0 +1,30 @@
+.orderdetails-page {
+  display: flex;
+  .orderdetails-container {
+    margin: 50px auto 50px auto;
+    padding: 20px;
+    min-width: 600px;
+    max-width: 800px;
+    border: 2px solid rgb(227, 212, 212);
+    border-radius: 30px;
+    background-color: white;
+    .orderdetails-entity {
+      margin-top: 0px;
+      display: grid;
+      grid-template-columns: 150px auto;
+      margin-right: 20px;
+    }
+    .orderdetails-list {
+      .orderdetails-list-header {
+        display: grid;
+        grid-template-columns: auto 150px;
+      }
+      .orderdetails-list-item {
+        display: grid;
+        grid-template-columns: auto 150px;
+        text-decoration: none;
+        color: black;
+      }
+    }
+  }
+}

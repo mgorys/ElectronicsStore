@@ -27,11 +27,33 @@ export async function get(endpoint, paramsObj, query) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error z url : ', wholeUrl);
+    console.log('error with url : ', wholeUrl);
     return response;
   }
   let result = await response.json();
-  console.log('poszlo z url', wholeUrl, result);
+  console.log('data from url', wholeUrl, result);
+  return result;
+}
+export async function getAuth(endpoint, paramsObj, token) {
+  let wholeUrl = url + endpoint;
+  if (paramsObj !== undefined && paramsObj !== null) {
+    wholeUrl += '/' + paramsObj;
+  }
+  let response = await fetch(wholeUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+    method: 'GET',
+    credentials: 'same-origin',
+  });
+  if (!response.ok) {
+    console.log('error with url : ', wholeUrl);
+    return response;
+  }
+
+  let result = await response.json();
+  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function getAdmin(endpoint, paramsObj, query, token) {
@@ -61,12 +83,12 @@ export async function getAdmin(endpoint, paramsObj, query, token) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error z url : ', wholeUrl);
+    console.log('error with url : ', wholeUrl);
     return response;
   }
 
   let result = await response.json();
-  console.log('poszlo z url', wholeUrl, result);
+  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function postAdmin(endpoint, paramsObj, token, body) {
@@ -86,12 +108,12 @@ export async function postAdmin(endpoint, paramsObj, token, body) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error z url : ', wholeUrl);
+    console.log('error with url : ', wholeUrl);
     throw new Error(response.statusText);
   }
 
   let result = await response.json();
-  console.log('poszlo z url', wholeUrl, result);
+  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function deleteAdmin(endpoint, paramsObj, token) {
@@ -111,11 +133,11 @@ export async function deleteAdmin(endpoint, paramsObj, token) {
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    console.log('error z url : ', wholeUrl);
+    console.log('error with url : ', wholeUrl);
     throw new Error(response.statusText);
   }
   let result = await response.json();
-  console.log('poszlo z url', wholeUrl, result);
+  console.log('data with url', wholeUrl, result);
   return result;
 }
 export async function loginUser(email, password) {

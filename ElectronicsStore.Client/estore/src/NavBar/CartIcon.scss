@@ -1,6 +1,5 @@
 .cart-container {
   margin: auto 5px auto auto;
-  width: 45px;
   height: 45px;
   position: relative;
   display: flex;
@@ -18,5 +17,6 @@
     width: 45px;
     height: 45px;
     color: white;
+    margin-left: 10px;
   }
 }

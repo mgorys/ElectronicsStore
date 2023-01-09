@@ -1,16 +1,18 @@
 import { createContext, useState, useContext } from 'react';
-import { getAdmin, postAdmin, deleteAdmin } from '../utils/fetch';
+import { getAdmin, postAdmin, deleteAdmin, getAuth } from '../utils/fetch';
 import { UserContext } from './user.context';
 
 export const OrdersContext = createContext({
   ordersList: {},
-  hasItems: false,  
+  hasItems: false,
   getOrderAdmin: () => {},
   orderItem: {},
   getOrdersAdminWithPage: () => {},
   changeOrderStatusAdmin: () => {},
   deleteOrderAdmin: () => {},
   defaultQuery: {},
+  getUsersOrders: () => {},
+  getOrder: () => {},
 });
 export const OrdersProvider = ({ children }) => {
   const { currentUser } = useContext(UserContext);
@@ -25,6 +27,29 @@ export const OrdersProvider = ({ children }) => {
     page: null,
     status: null,
   };
+  async function getUsersOrders() {
+    const orders = await getAuth('order', null, currentUser.token);
+    if (orders.status === 400) {
+      alert('smth went wrong');
+      return orders.status;
+    }
+    let changed = parseStatusToString(orders);
+    setOrdersList(changed);
+    setHasItems(true);
+  }
+  async function getOrder(e) {
+    paramsObj = e;
+    const fetchedData = await getAdmin(
+      'order',
+      paramsObj,
+      undefined,
+      currentUser.token
+    );
+    let changed = parseStatusToString(fetchedData);
+    setOrdersList(changed);
+    setHasItems(true);
+    return fetchedData;
+  }
 
   async function getOrdersAdminWithPage(query) {
     if (currentUser !== null) {
@@ -150,6 +175,8 @@ export const OrdersProvider = ({ children }) => {
     changeOrderStatusAdmin,
     deleteOrderAdmin,
     defaultQuery,
+    getUsersOrders,
+    getOrder,
   };
   return (
     <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>

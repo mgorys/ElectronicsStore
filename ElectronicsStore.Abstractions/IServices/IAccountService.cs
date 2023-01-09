@@ -1,4 +1,7 @@
-﻿using ElectronicsStore.Models.Dto;
+﻿using ElectronicsStore.Entities;
+using ElectronicsStore.Models;
+using ElectronicsStore.Models.Dto;
+using ElectronicsStore.Persistence.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +15,6 @@ namespace ElectronicsStore.Abstractions.IServices
         Task RegisterUserAsync(RegisterDto registerUser);
         Task<string> GenerateJwt(LoginDto dto);
         Task<LoggedUserInfo> LoginUserAsync(LoginDto login);
+        Task<ServerResponseSuccess<User>> FindUserAsync(string email);
     }
 }

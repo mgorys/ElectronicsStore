@@ -12,6 +12,8 @@ import AdminPage from './AdminPage/AdminPage';
 import { useContext } from 'react';
 import { UserContext } from './contexts/user.context';
 import OrderDetails from './AdminPage/OrderDetails';
+import OrderPage from './OrderPage/OrderPage';
+import OrderDet from './OrderPage/OrderDet';
 
 function App() {
   const { currentUser } = useContext(UserContext);
@@ -24,8 +26,15 @@ function App() {
           <Route exact path="/" element={<Home />}></Route>
           <Route path="shop/*" element={<Shop />} />
           <Route path="checkout" element={<Checkout />} />
+
           <Route path="purchase" element={<PurchaseDetails />} />
           <Route path="product/:name" element={<ProductDetails />} />
+          {currentUser && (
+            <>
+              <Route path="order" element={<OrderPage />} />
+              <Route path="order/:orderNumber" element={<OrderDet />} />
+            </>
+          )}
           {currentUser && currentUser.userName === 'Admin' && (
             <>
               <Route path="admin" element={<AdminPage />} />

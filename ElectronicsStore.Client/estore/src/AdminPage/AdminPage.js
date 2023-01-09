@@ -18,10 +18,12 @@ const AdminPage = () => {
   const handleChangePageSize = (e) => {
     if (queryState !== undefined && queryState !== null) {
       queryState.pageSize = e;
+      queryState.page = 1;
       setPageSize(e);
       getOrdersAdminWithPage(queryState);
     } else {
       defaultQuery.pageSize = e;
+      defaultQuery.page = 1;
       setPageSize(e);
       getOrdersAdminWithPage(defaultQuery);
     }

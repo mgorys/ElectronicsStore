@@ -15,11 +15,13 @@ const AuthButton = () => {
   return (
     <div>
       {currentUser ? (
-        <Button buttonType="classic">
-          <div className="nav-link" onClick={signOutUser}>
-            SIGN OUT
-          </div>
-        </Button>
+        <Link to="/">
+          <Button buttonType="classic">
+            <div className="nav-link" onClick={signOutUser}>
+              SIGN OUT
+            </div>
+          </Button>
+        </Link>
       ) : (
         <Link className="nav-link" to="/auth">
           <Button buttonType="classic">SIGN IN</Button>

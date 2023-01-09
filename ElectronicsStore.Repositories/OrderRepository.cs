@@ -117,5 +117,25 @@ namespace ElectronicsStore.Repositories
             return true;
         }
 
+        public async Task<ServerResponseSuccess<IEnumerable<Order>>> GetUsersOrdersAsync(string email)
+        {
+            var response = new ServerResponseSuccess<IEnumerable<Order>>();
+            var result = await _dbContext.Orders
+            .Include(x => x.User)
+            .Where(x =>x.User.Email == email)
+            .ToListAsync();
+
+            if (result == null)
+            {
+                response.Success = false;
+                return response;
+            }
+            else
+            {
+                response.Success = true;
+            }
+            response.DataFromServer = result;
+            return response;
+        }
     }
 }

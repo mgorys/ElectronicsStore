@@ -5,7 +5,7 @@
   background: black;
   .nav-button-container {
     display: grid;
-    grid-template-columns: 170px 170px 170px 30px;
+    grid-template-columns: 170px 170px 170px 170px 30px;
     text-decoration: none;
     .nav-button-key {
       margin: auto;
@@ -16,6 +16,6 @@
   .nav-container-right {
     margin: 0px;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto 70px auto;
   }
 }

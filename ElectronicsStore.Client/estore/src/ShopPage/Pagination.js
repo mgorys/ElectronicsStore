@@ -24,11 +24,11 @@ const Paginate = ({ pagesCount }) => {
     if (query !== null && query !== undefined) {
       query.page = e;
       getProductsWithCategory(currentCategory, query);
-      setCurrentPage(e);
+      setCurrentPage(parseInt(e));
     } else {
       defaultQuery.page = e;
       getProductsWithCategory(currentCategory, defaultQuery);
-      setCurrentPage(e);
+      setCurrentPage(parseInt(e));
     }
   };
   const handleChangePage = (e) => {
@@ -78,7 +78,7 @@ const Paginate = ({ pagesCount }) => {
               {'<'}
             </Button>
           )}
-          {currentPage !== 1 && currentPage !== pagesCount && (
+          {currentPage !== 1 && currentPage != pagesCount && (
             <Button
               buttonType="pagination"
               // onClick={(e) => handleClick(e.target.value)}

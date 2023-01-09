@@ -47,7 +47,7 @@ namespace ElectronicsStore.Services
         }
         public async Task<LoggedUserInfo> LoginUserAsync(LoginDto login)
         {
-            var userName = await _accountRepository.FindUserAsync(login.Email);
+            var userName = await FindUserAsync(login.Email);
             if (userName.DataFromServer is null)
             {
                 throw new BadRequestException("Invalid username or password");
@@ -63,7 +63,7 @@ namespace ElectronicsStore.Services
         }
         public async Task<string> GenerateJwt(LoginDto login)
         {
-            var user = await _accountRepository.FindUserAsync(login.Email);
+            var user = await FindUserAsync(login.Email);
 
             if (user.DataFromServer is null)
             {
@@ -93,6 +93,10 @@ namespace ElectronicsStore.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
+        }
+        public async Task<ServerResponseSuccess<User>> FindUserAsync(string email)
+        {
+            return await _accountRepository.FindUserAsync(email);
         }
     }
 }
